@@ -28,11 +28,11 @@ namespace ExoGuerrier.NET
             set => _nbDesAttaque = value;
         }
 
-        public Guerrier(string Nom, int PointsDeVie, int NBDesAttaque)
+        public Guerrier(string Nom, int PointsDeVie, int NbDesAttaque)
         {
             _nom = Nom;
             _pointsDeVie = PointsDeVie;
-            _nbDesAttaque = NBDesAttaque;
+            _nbDesAttaque = NbDesAttaque;
         }
 
         public string GetNom()
@@ -47,6 +47,22 @@ namespace ExoGuerrier.NET
             return PointsDeVie;
         }
 
-        public void SetPointsDeVie(int PointsDeVie) { }
+        public void SetPointsDeVie(int setPointsDeVie)
+        {
+            PointsDeVie = setPointsDeVie;
+        }
+
+        public int GetNbDesAttaque()
+        {
+            Console.WriteLine($"Nombres des attaques : {NbDesAttaque}");
+            return NbDesAttaque;
+        }
+
+        public void AfficherInfos()
+        {
+            GetNom();
+            GetPointsDeVie();
+            GetNbDesAttaque();
+        }
     }
 }
