@@ -80,17 +80,16 @@ namespace ExoGuerrier.NET
             return totalDegats;
         }
 
-        public void SubirDegats()
+        // J'utilise une méthode virtual, qui peut étre override dans une autre classe
+        public void SubirDegats(int degats)
         {
-            int totalDegats = Attaquer();
-            PointsDeVie -= totalDegats;
-            Console.WriteLine(
-                $"Vous avez pris {totalDegats} dégats, il vous reste {PointsDeVie} PV."
-            );
-            if (PointsDeVie == 0)
+            PointsDeVie -= degats;
+            Console.WriteLine($"{Nom} a subi {degats} dégâts, il lui reste {PointsDeVie} PV.");
+            if (PointsDeVie <= 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"{Nom} est mort.");
+                Console.ResetColor();
             }
         }
     }
