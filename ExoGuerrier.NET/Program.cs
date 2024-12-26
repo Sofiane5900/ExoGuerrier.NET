@@ -9,7 +9,7 @@ listGuerriers.Add(galahad);
 listGuerriers.Add(lancelot);
 listGuerriers.Add(gimli);
 listGuerriers.Add(legolas);
-
+AfficherMenu();
 void AfficherMenu()
 {
     while (true)
@@ -34,6 +34,13 @@ void AfficherMenu()
                 Environment.Exit(0);
                 break;
             case 1:
+                AjoutGuerrier();
+                break;
+            case 2:
+                Console.Clear();
+                AfficherListeGuerriers();
+                break;
+            case 3:
                 break;
         }
     }
@@ -47,6 +54,7 @@ void AjoutGuerrier()
     Console.WriteLine("2-- Nain");
     Console.WriteLine("3-- Elfe");
     Console.WriteLine("0-- Retour");
+    Console.Write("Faites votre choix :");
     int choixAjoutMenu;
     bool successChoixAjoutMenu = int.TryParse(Console.ReadLine(), out choixAjoutMenu);
     if (!successChoixAjoutMenu)
@@ -57,6 +65,7 @@ void AjoutGuerrier()
     switch (choixAjoutMenu)
     {
         case 0:
+            Console.Clear();
             break;
         case 1:
             Console.Write("Nom du guerrier :");
@@ -68,6 +77,68 @@ void AjoutGuerrier()
             {
                 InterditSaisie();
             }
+            Console.Write("Nombre d'ATQ du guerrier :");
+            int nbATQAjoutGuerrier;
+            bool successnbATQAjoutGuerrier = int.TryParse(
+                Console.ReadLine(),
+                out nbATQAjoutGuerrier
+            );
+            if (!successnbATQAjoutGuerrier)
+            {
+                InterditSaisie();
+            }
+            Guerrier guerrierAjout = new Guerrier(
+                nomAjoutGuerrier,
+                pvAjoutGuerrier,
+                nbATQAjoutGuerrier
+            );
+            listGuerriers.Add(guerrierAjout);
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Guerrier ajouté avec success !");
+            Console.ResetColor();
+            break;
+        case 2:
+            Console.Write("Nom du nain :");
+            string nomAjoutNain = Console.ReadLine();
+            Console.Write("PV du nain :");
+            int pvAjoutNain;
+            bool successpvAjoutNain = int.TryParse(Console.ReadLine(), out pvAjoutNain);
+            if (!successpvAjoutNain || pvAjoutNain <= 0)
+            {
+                InterditSaisie();
+                break;
+            }
+            Console.Write("Nombre d'ATQ du nain :");
+            int nbATQAjoutNain;
+            bool successnbATQAjoutNain = int.TryParse(Console.ReadLine(), out nbATQAjoutNain);
+            if (!successnbATQAjoutNain || nbATQAjoutNain <= 0)
+            {
+                InterditSaisie();
+                break;
+            }
+            Console.Write("Le nain porte t'il une armure lourde ? (true/false) :");
+            string armureLourdeNain = Console.ReadLine();
+            if (armureLourdeNain == "true" || armureLourdeNain == "false")
+            {
+                bool porteArmureLourde = bool.Parse(armureLourdeNain);
+                Nain nainAjout = new Nain(
+                    nomAjoutNain,
+                    pvAjoutNain,
+                    nbATQAjoutNain,
+                    porteArmureLourde
+                );
+                listGuerriers.Add(nainAjout);
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Nain ajouté avec succès !");
+                Console.ResetColor();
+            }
+            else
+            {
+                InterditSaisie();
+            }
+            break;
     }
 }
 
@@ -77,4 +148,14 @@ void InterditSaisie()
     Console.ForegroundColor = ConsoleColor.Red;
     Console.WriteLine("Vous n'étes pas autorisée a effectuer cette action.");
     Console.ResetColor();
+}
+
+void AfficherListeGuerriers()
+{
+    Console.Clear();
+    Console.WriteLine("=== Afficher tout les guerriers ===");
+    foreach (Guerrier guerrier in listGuerriers)
+    {
+        guerrier.GetNom();
+    }
 }
