@@ -1,2 +1,6 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using ExoGuerrier.NET;
+
+Guerrier Jean = new Guerrier("Jean", 100, 13);
+
+Jean.GetNom();
+Jean.GetPointsDeVie();
