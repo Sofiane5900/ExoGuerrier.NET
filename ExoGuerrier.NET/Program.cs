@@ -14,7 +14,7 @@ void AfficherMenu()
 {
     while (true)
     {
-        Console.WriteLine("=== Menu ⚔︎ ===\n");
+        Console.WriteLine("=== Menu Duel ===\n");
         Console.WriteLine("1-- Ajouter un guerrier");
         Console.WriteLine("2-- Afficher tout les guerriers");
         Console.WriteLine("3-- Lancer un tournoi");
@@ -41,6 +41,10 @@ void AfficherMenu()
                 AfficherListeGuerriers();
                 break;
             case 3:
+                LancerTournoi();
+                break;
+            default:
+                InterditSaisie();
                 break;
         }
     }
@@ -73,9 +77,10 @@ void AjoutGuerrier()
             Console.Write("PV du guerrier :");
             int pvAjoutGuerrier;
             bool successPvAjoutGuerrier = int.TryParse(Console.ReadLine(), out pvAjoutGuerrier);
-            if (!successPvAjoutGuerrier)
+            if (!successPvAjoutGuerrier || pvAjoutGuerrier <= 0)
             {
                 InterditSaisie();
+                break;
             }
             Console.Write("Nombre d'ATQ du guerrier :");
             int nbATQAjoutGuerrier;
@@ -83,9 +88,10 @@ void AjoutGuerrier()
                 Console.ReadLine(),
                 out nbATQAjoutGuerrier
             );
-            if (!successnbATQAjoutGuerrier)
+            if (!successnbATQAjoutGuerrier || nbATQAjoutGuerrier <= 0)
             {
                 InterditSaisie();
+                break;
             }
             Guerrier guerrierAjout = new Guerrier(
                 nomAjoutGuerrier,
@@ -99,9 +105,9 @@ void AjoutGuerrier()
             Console.ResetColor();
             break;
         case 2:
-            Console.Write("Nom du nain :");
+            Console.Write("Nom du Nain :");
             string nomAjoutNain = Console.ReadLine();
-            Console.Write("PV du nain :");
+            Console.Write("PV du Nain :");
             int pvAjoutNain;
             bool successpvAjoutNain = int.TryParse(Console.ReadLine(), out pvAjoutNain);
             if (!successpvAjoutNain || pvAjoutNain <= 0)
@@ -109,7 +115,7 @@ void AjoutGuerrier()
                 InterditSaisie();
                 break;
             }
-            Console.Write("Nombre d'ATQ du nain :");
+            Console.Write("Nombre d'ATQ du Nain :");
             int nbATQAjoutNain;
             bool successnbATQAjoutNain = int.TryParse(Console.ReadLine(), out nbATQAjoutNain);
             if (!successnbATQAjoutNain || nbATQAjoutNain <= 0)
@@ -117,7 +123,7 @@ void AjoutGuerrier()
                 InterditSaisie();
                 break;
             }
-            Console.Write("Le nain porte t'il une armure lourde ? (true/false) :");
+            Console.Write("Le Nain porte t'il une armure lourde ? (true/false) :");
             string armureLourdeNain = Console.ReadLine();
             if (armureLourdeNain == "true" || armureLourdeNain == "false")
             {
@@ -131,13 +137,43 @@ void AjoutGuerrier()
                 listGuerriers.Add(nainAjout);
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Nain ajouté avec succès !");
+                Console.WriteLine($"Nain {nomAjoutNain} ajouté avec succès !");
                 Console.ResetColor();
             }
             else
             {
                 InterditSaisie();
+                break;
             }
+            break;
+        case 3:
+            Console.Write("Nom de l'Elfe :");
+            string nomAjoutElfe = Console.ReadLine();
+            Console.Write("PV de l'Elfe :");
+            int pvAjoutElfe;
+            bool successPvAjoutElfe = int.TryParse(Console.ReadLine(), out pvAjoutElfe);
+            if (!successPvAjoutElfe || pvAjoutElfe <= 0)
+            {
+                InterditSaisie();
+                break;
+            }
+            Console.Write("Nombre d'ATQ de l'Elfe :");
+            int nbATQAjoutElfe;
+            bool succesNbATQAjoutElfe = int.TryParse(Console.ReadLine(), out nbATQAjoutElfe);
+            if (!succesNbATQAjoutElfe || nbATQAjoutElfe <= 0)
+            {
+                InterditSaisie();
+                break;
+            }
+            Elfe elfeAjout = new Elfe(nomAjoutElfe, pvAjoutElfe, nbATQAjoutElfe);
+            listGuerriers.Add(elfeAjout);
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"Elfe {nomAjoutElfe} ajouté avec success !");
+            Console.ResetColor();
+            break;
+        default:
+            InterditSaisie();
             break;
     }
 }
@@ -158,4 +194,25 @@ void AfficherListeGuerriers()
     {
         guerrier.GetNom();
     }
+}
+
+void LancerTournoi()
+{
+    Console.Clear();
+    Console.WriteLine("=== Lancer un tournoi ===");
+
+    if (listGuerriers.Count < 2)
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine("Il faut au moins deux guerriers pour lancer un tournoi.");
+        Console.ResetColor();
+        return;
+    }
+
+    Random random = new Random();
+    Guerrier gagnant = listGuerriers[random.Next(listGuerriers.Count)];
+
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.WriteLine($"Le gagnant du tournoi est {gagnant.GetNom()} !");
+    Console.ResetColor();
 }
