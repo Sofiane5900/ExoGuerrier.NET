@@ -30,34 +30,18 @@ namespace ExoGuerrier.NET
 
         public Guerrier(string Nom, int PointsDeVie, int NbDesAttaque)
         {
-            _nom = Nom;
-            _pointsDeVie = PointsDeVie;
-            _nbDesAttaque = NbDesAttaque;
+            this.Nom = Nom;
+            this.PointsDeVie = PointsDeVie;
+            this.NbDesAttaque = NbDesAttaque;
         }
 
         // Méthodes publique
-        public string GetNom()
-        {
-            Console.WriteLine($"Nom: {Nom}");
-            return Nom;
-        }
 
-        public int GetPointsDeVie()
-        {
-            Console.WriteLine($"PV: {PointsDeVie}");
-            return PointsDeVie;
-        }
+        public string GetNom() => Nom;
 
-        public void SetPointsDeVie(int setPointsDeVie)
-        {
-            PointsDeVie = setPointsDeVie;
-        }
+        public int GetPointsDeVie() => PointsDeVie;
 
-        public int GetNbDesAttaque()
-        {
-            Console.WriteLine($"Nombres des attaques : {NbDesAttaque}");
-            return NbDesAttaque;
-        }
+        public int GetNbDesAttaque() => NbDesAttaque;
 
         // Méthodes essentielles
         public void AfficherInfos()
@@ -80,12 +64,13 @@ namespace ExoGuerrier.NET
             return degats;
         }
 
-        public void SubirDegats(int degats)
+        public virtual void SubirDegats(int degats)
         {
             PointsDeVie -= degats;
             Console.WriteLine($"{Nom} a subi {degats} dégâts, il lui reste {PointsDeVie} PV.");
-            if (PointsDeVie <= 0)
+            if (PointsDeVie < 0)
             {
+                PointsDeVie = 0;
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"{Nom} est mort.");
                 Console.ResetColor();

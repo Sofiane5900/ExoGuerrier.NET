@@ -1,9 +1,10 @@
-﻿using ExoGuerrier.NET;
+﻿using System.Drawing;
+using ExoGuerrier.NET;
 
 Guerrier galahad = new Guerrier("Galahad", 30, 5);
 Guerrier lancelot = new Guerrier("Lancelot", 30, 5);
 Nain gimli = new Nain("Gimli", 35, 2, true);
-Elfe legolas = new Elfe("Legolas", 25, 7);
+Elfe legolas = new Elfe("Legolas", 30, 5);
 List<Guerrier> listGuerriers = new List<Guerrier>();
 listGuerriers.Add(galahad);
 listGuerriers.Add(lancelot);
@@ -196,23 +197,4 @@ void AfficherListeGuerriers()
     }
 }
 
-void LancerTournoi()
-{
-    Console.Clear();
-    Console.WriteLine("=== Lancer un tournoi ===");
-
-    if (listGuerriers.Count < 2)
-    {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine("Il faut au moins deux guerriers pour lancer un tournoi.");
-        Console.ResetColor();
-        return;
-    }
-
-    Random random = new Random();
-    Guerrier gagnant = listGuerriers[random.Next(listGuerriers.Count)];
-
-    Console.ForegroundColor = ConsoleColor.Green;
-    Console.WriteLine($"Le gagnant du tournoi est {gagnant.GetNom()} !");
-    Console.ResetColor();
-}
+void LancerTournoi() { }

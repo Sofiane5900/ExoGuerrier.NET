@@ -22,16 +22,20 @@ namespace ExoGuerrier.NET
             _armureLourde = ArmureLourde;
         }
 
-        public void SubirDegats(int degats)
+        public override void SubirDegats(int degats)
         {
             if (_armureLourde = true)
             {
                 degats /= 2;
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine($"{Nom} a une armure lourde !");
+                Console.ResetColor();
             }
             PointsDeVie -= degats;
             Console.WriteLine($"{Nom} a subi {degats} dégâts, il lui reste {PointsDeVie} PV.");
             if (PointsDeVie <= 0)
             {
+                PointsDeVie = 0;
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"{Nom} est mort.");
                 Console.ResetColor();
