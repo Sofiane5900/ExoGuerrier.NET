@@ -71,16 +71,15 @@ namespace ExoGuerrier.NET
         {
             Random random = new Random();
             int dice;
-            int totalDegats = 0;
+            int degats = 0;
             for (int i = 0; i < NbDesAttaque; i++)
             {
-                dice = random.Next(1, 6);
-                totalDegats += dice;
+                dice = random.Next(0, 6);
+                degats += dice;
             }
-            return totalDegats;
+            return degats;
         }
 
-        // J'utilise une méthode virtual, qui peut étre override dans une autre classe
         public void SubirDegats(int degats)
         {
             PointsDeVie -= degats;

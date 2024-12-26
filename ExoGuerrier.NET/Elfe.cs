@@ -13,9 +13,8 @@ namespace ExoGuerrier.NET
 
         public int Attaquer()
         {
-            int totalDegats = 0;
-            totalDegats = Math.Max(totalDegats, NbDesAttaque);
-            return totalDegats;
+            int degats = NbDesAttaque;
+            return degats;
         }
     }
 }
