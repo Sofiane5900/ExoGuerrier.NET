@@ -25,10 +25,7 @@ void AfficherMenu()
         bool successChoixMenu = int.TryParse(Console.ReadLine(), out choixMenu);
         if (!successChoixMenu)
         {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Vous n'étes pas autorisée a effectuer cette action.");
-            Console.ResetColor();
+            InterditSaisie();
         }
 
         switch (choixMenu)
@@ -54,10 +51,7 @@ void AjoutGuerrier()
     bool successChoixAjoutMenu = int.TryParse(Console.ReadLine(), out choixAjoutMenu);
     if (!successChoixAjoutMenu)
     {
-        Console.Clear();
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine("Vous n'étes pas autorisée a effectuer cette action.");
-        Console.ResetColor();
+        InterditSaisie();
     }
 
     switch (choixAjoutMenu)
@@ -66,6 +60,21 @@ void AjoutGuerrier()
             break;
         case 1:
             Console.Write("Nom du guerrier :");
-            Console.ReadLine.
+            string nomAjoutGuerrier = Console.ReadLine();
+            Console.Write("PV du guerrier :");
+            int pvAjoutGuerrier;
+            bool successPvAjoutGuerrier = int.TryParse(Console.ReadLine(), out pvAjoutGuerrier);
+            if (!successPvAjoutGuerrier)
+            {
+                InterditSaisie();
+            }
     }
+}
+
+void InterditSaisie()
+{
+    Console.Clear();
+    Console.ForegroundColor = ConsoleColor.Red;
+    Console.WriteLine("Vous n'étes pas autorisée a effectuer cette action.");
+    Console.ResetColor();
 }
