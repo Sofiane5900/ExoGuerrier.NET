@@ -35,6 +35,7 @@ namespace ExoGuerrier.NET
             _nbDesAttaque = NbDesAttaque;
         }
 
+        // Méthodes publique
         public string GetNom()
         {
             Console.WriteLine($"Nom: {Nom}");
@@ -58,11 +59,39 @@ namespace ExoGuerrier.NET
             return NbDesAttaque;
         }
 
+        // Méthodes essentielles
         public void AfficherInfos()
         {
             GetNom();
             GetPointsDeVie();
             GetNbDesAttaque();
+        }
+
+        public int Attaquer()
+        {
+            Random random = new Random();
+            int dice;
+            int totalDegats = 0;
+            for (int i = 0; i < NbDesAttaque; i++)
+            {
+                dice = random.Next(1, 6);
+                totalDegats += dice;
+            }
+            return totalDegats;
+        }
+
+        public void SubirDegats()
+        {
+            int totalDegats = Attaquer();
+            PointsDeVie -= totalDegats;
+            Console.WriteLine(
+                $"Vous avez pris {totalDegats} dégats, il vous reste {PointsDeVie} PV."
+            );
+            if (PointsDeVie == 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"{Nom} est mort.");
+            }
         }
     }
 }
