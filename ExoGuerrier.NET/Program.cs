@@ -197,4 +197,41 @@ void AfficherListeGuerriers()
     }
 }
 
-void LancerTournoi() { }
+void LancerTournoi()
+{
+    Console.Clear();
+    Console.WriteLine("=== Lancer un tournoi ===");
+
+    if (listGuerriers.Count < 2)
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine("Il faut au moins deux guerriers pour lancer un tournoi.");
+        Console.ResetColor();
+        return;
+    }
+
+    Random random = new Random();
+    Guerrier guerrier1 = listGuerriers[random.Next(listGuerriers.Count)];
+    Guerrier guerrier2 = listGuerriers[random.Next(listGuerriers.Count)];
+
+    Guerrier gagnant;
+
+    for (int i = 0; i < listGuerriers.Count; i++)
+    {
+        while (guerrier2.PointsDeVie > 0 && guerrier1.PointsDeVie > 0)
+        {
+            int degats = guerrier2.Attaquer();
+            guerrier1.SubirDegats(degats);
+        }
+
+        while (guerrier1.PointsDeVie > 0 && guerrier2.PointsDeVie > 0)
+        {
+            int degats = guerrier1.Attaquer();
+            guerrier2.SubirDegats(degats);
+        }
+    }
+
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.WriteLine($"Le gagnant du tournoi est {guerrier2.GetNom()} !");
+    Console.ResetColor();
+}
