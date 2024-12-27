@@ -36,9 +36,6 @@ namespace ExoGuerrier.NET
             string jsonString = JsonSerializer.Serialize(listGuerriers);
             // Je crée un noueau fichier, qui écrit tout ce qu'il y a dans ma listGuerriers
             File.WriteAllText(FilePath, jsonString);
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Liste des guerriers sauvegardée avec succès !");
-            Console.ResetColor();
         }
 
         public void ChargerGuerriers(out List<Guerrier> listGuerriers)

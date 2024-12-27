@@ -20,20 +20,19 @@ namespace ExoGuerrier.NET
             while (true)
             {
                 AnsiConsole.Write(
-                    new FigletText("Duel de Guerrier").LeftJustified().Color(Color.Red)
+                    new FigletText("Donjon & Guerriers ").LeftJustified().Color(Color.Red)
                 );
                 var affichageMenu = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
-                        .Title("=== Menu Duel ===")
-                        .PageSize(6)
+                        .Title("=== Menu ===")
+                        .PageSize(5)
                         .AddChoices(
                             new[]
                             {
                                 "Ajouter un guerrier",
                                 "Afficher tous les guerriers",
                                 "Lancer un tournoi",
-                                "Sauvegarder mes guerriers",
-                                "Charger mes guerriers",
+                                "Entrez dans le mode donjon",
                                 "Quitter",
                             }
                         )
@@ -44,8 +43,7 @@ namespace ExoGuerrier.NET
                     "Ajouter un guerrier" => 1,
                     "Afficher tous les guerriers" => 2,
                     "Lancer un tournoi" => 3,
-                    "Sauvegarder mes guerriers" => 4,
-                    "Charger mes guerriers" => 5,
+                    "Entrez dans le mode donjon" => 4,
                     "Quitter" => 0,
                 };
 
@@ -65,7 +63,6 @@ namespace ExoGuerrier.NET
                         LancerTournoi();
                         break;
                     case 4:
-                        sauvegarde.SauvegarderGuerriers(listGuerriers);
                         break;
                     case 5:
                         break;
@@ -136,6 +133,7 @@ namespace ExoGuerrier.NET
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Guerrier ajouté avec succès !");
+                    sauvegarde.SauvegarderGuerriers(listGuerriers);
                     Console.ResetColor();
                     break;
                 case 2:
@@ -180,6 +178,7 @@ namespace ExoGuerrier.NET
                         Console.Clear();
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine($"Nain {nomAjoutNain} ajouté avec succès !");
+                        sauvegarde.SauvegarderGuerriers(listGuerriers);
                         Console.ResetColor();
                     }
                     else
@@ -220,6 +219,7 @@ namespace ExoGuerrier.NET
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"Elfe {nomAjoutElfe} ajouté avec succès !");
+                    sauvegarde.SauvegarderGuerriers(listGuerriers);
                     Console.ResetColor();
                     break;
                 default:
