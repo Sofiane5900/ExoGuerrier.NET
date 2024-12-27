@@ -67,14 +67,44 @@ namespace ExoGuerrier.NET
         public virtual void SubirDegats(int degats)
         {
             PointsDeVie -= degats;
-            Console.WriteLine($"{Nom} a subi {degats} dégâts, il lui reste {PointsDeVie} PV.");
             if (PointsDeVie < 0)
             {
                 PointsDeVie = 0;
+            }
+            Console.WriteLine($"{Nom} a subi {degats} dégâts, il lui reste {PointsDeVie} PV.");
+            if (PointsDeVie == 0)
+            {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"{Nom} est mort.");
                 Console.ResetColor();
             }
+        }
+
+        public static Guerrier Duel(Guerrier guerrier1, Guerrier guerrier2)
+        {
+            while (guerrier1.PointsDeVie > 0 && guerrier2.PointsDeVie > 0)
+            {
+                int degats = guerrier1.Attaquer();
+                guerrier2.SubirDegats(degats);
+
+                if (guerrier2.PointsDeVie <= 0)
+                {
+                    Console.WriteLine($"{guerrier1.Nom} a gagné le duel !");
+                    return guerrier1;
+                }
+
+                degats = guerrier2.Attaquer();
+                guerrier1.SubirDegats(degats);
+
+                if (guerrier1.PointsDeVie <= 0)
+                {
+                    Console.WriteLine($"{guerrier2.Nom} a gagné le duel !");
+                    return guerrier2;
+                }
+            }
+
+            // Idéalement cette ligne ne devrait jamais étre atteinte
+            return null;
         }
     }
 }

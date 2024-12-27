@@ -207,31 +207,38 @@ void LancerTournoi()
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine("Il faut au moins deux guerriers pour lancer un tournoi.");
         Console.ResetColor();
-        return;
     }
 
-    Random random = new Random();
-    Guerrier guerrier1 = listGuerriers[random.Next(listGuerriers.Count)];
-    Guerrier guerrier2 = listGuerriers[random.Next(listGuerriers.Count)];
+    // Création d'une copie de la liste des guerriers pour les participants
+    List<Guerrier> participants = new List<Guerrier>(listGuerriers);
+    Random randomGuerrier = new Random();
 
-    Guerrier gagnant;
-
-    for (int i = 0; i < listGuerriers.Count; i++)
+    while (participants.Count > 1)
     {
-        while (guerrier2.PointsDeVie > 0 && guerrier1.PointsDeVie > 0)
-        {
-            int degats = guerrier2.Attaquer();
-            guerrier1.SubirDegats(degats);
-        }
+        // Sélection aléatoire de deux guerriers
+        int index1 = randomGuerrier.Next(participants.Count);
+        // Je selectionne un guerrier aleatoire
+        Guerrier guerrier1 = participants[index1];
+        // Je le retire de ma liste des participants pour éviter toute selection multiples
+        participants.RemoveAt(index1);
 
-        while (guerrier1.PointsDeVie > 0 && guerrier2.PointsDeVie > 0)
-        {
-            int degats = guerrier1.Attaquer();
-            guerrier2.SubirDegats(degats);
-        }
+        int index2 = randomGuerrier.Next(participants.Count);
+        Guerrier guerrier2 = participants[index2];
+        participants.RemoveAt(index2);
+
+        Console.WriteLine($"Combat entre {guerrier1.GetNom()} et {guerrier2.GetNom()}");
+        Thread.Sleep(1000);
+
+        Guerrier gagnant = Guerrier.Duel(guerrier1, guerrier2);
+        Console.WriteLine($"Le gagnant est {gagnant.GetNom()}\n");
+
+        // Je re-ajoute le gagnant a la liste des participants
+        participants.Add(gagnant);
     }
 
+    // Le dernier guerrier restant est le champion
+    Guerrier champion = participants[0];
     Console.ForegroundColor = ConsoleColor.Green;
-    Console.WriteLine($"Le gagnant du tournoi est {guerrier2.GetNom()} !");
+    Console.WriteLine($"Le champion du tournoi est {champion.GetNom()} !");
     Console.ResetColor();
 }

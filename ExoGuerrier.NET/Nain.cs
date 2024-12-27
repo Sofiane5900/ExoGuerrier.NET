@@ -32,10 +32,13 @@ namespace ExoGuerrier.NET
                 Console.ResetColor();
             }
             PointsDeVie -= degats;
-            Console.WriteLine($"{Nom} a subi {degats} dégâts, il lui reste {PointsDeVie} PV.");
-            if (PointsDeVie <= 0)
+            if (PointsDeVie < 0)
             {
                 PointsDeVie = 0;
+            }
+            Console.WriteLine($"{Nom} a subi {degats} dégâts, il lui reste {PointsDeVie} PV.");
+            if (PointsDeVie == 0)
+            {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"{Nom} est mort.");
                 Console.ResetColor();
