@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ExoGuerrier.NET
 {
-    internal class Guerrier
+    public class Guerrier : ICloneable
     {
         private string _nom;
         private int _pointsDeVie;
@@ -105,6 +105,11 @@ namespace ExoGuerrier.NET
 
             // Idéalement cette ligne ne devrait jamais étre atteinte
             return null;
+        }
+
+        public object Clone()
+        {
+            return new Guerrier(this.Nom, this.PointsDeVie, this.NbDesAttaque);
         }
     }
 }
