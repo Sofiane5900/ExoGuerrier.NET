@@ -5,22 +5,23 @@ namespace ExoGuerrier.NET
 {
     public class Menu
     {
-        private List<Guerrier> listGuerriers;
+        private List<Hero> listHeros;
         private Sauvegarde sauvegarde;
 
-        public Menu(List<Guerrier> guerriers, Sauvegarde sauvegarde)
+        public Menu(List<Hero> listHeros, Sauvegarde sauvegarde)
         {
-            listGuerriers = guerriers;
+            listHeros = listHeros;
             this.sauvegarde = sauvegarde;
         }
 
         public void AfficherMenu()
         {
-            sauvegarde.ChargerGuerriers(out listGuerriers);
+            sauvegarde.ChargerHeros(out listHeros);
+
             while (true)
             {
                 AnsiConsole.Write(
-                    new FigletText("Donjon & Guerriers ").LeftJustified().Color(Color.Red)
+                    new FigletText("Donjon & Heros").LeftJustified().Color(Color.Red)
                 );
                 var affichageMenu = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
@@ -29,8 +30,8 @@ namespace ExoGuerrier.NET
                         .AddChoices(
                             new[]
                             {
-                                "Ajouter un guerrier",
-                                "Afficher tous les guerriers",
+                                "Ajouter un hero",
+                                "Afficher tous les heros",
                                 "Lancer un tournoi",
                                 "Entrez dans le mode donjon",
                                 "Quitter",
@@ -40,11 +41,12 @@ namespace ExoGuerrier.NET
 
                 int choixMenu = affichageMenu switch
                 {
-                    "Ajouter un guerrier" => 1,
-                    "Afficher tous les guerriers" => 2,
+                    "Ajouter un hero" => 1,
+                    "Afficher tous les heros" => 2,
                     "Lancer un tournoi" => 3,
                     "Entrez dans le mode donjon" => 4,
                     "Quitter" => 0,
+                    _ => -1,
                 };
 
                 switch (choixMenu)
@@ -53,18 +55,18 @@ namespace ExoGuerrier.NET
                         Environment.Exit(0);
                         break;
                     case 1:
-                        AjoutGuerrier();
+                        AjoutHero();
+                        sauvegarde.SauvegarderHeros(listHeros);
                         break;
                     case 2:
-                        Utils.AfficherListeGuerriers(listGuerriers);
+                        Utils.AfficherListeHeros(listHeros);
                         break;
                     case 3:
                         Console.Clear();
                         LancerTournoi();
                         break;
                     case 4:
-                        break;
-                    case 5:
+                        // Code pour le mode donjon
                         break;
                     default:
                         Utils.InterditSaisie();
@@ -73,11 +75,11 @@ namespace ExoGuerrier.NET
             }
         }
 
-        private void AjoutGuerrier()
+        private void AjoutHero()
         {
             Console.Clear();
-            Console.WriteLine("=== Ajouter un guerrier ===");
-            Console.WriteLine("1-- Guerrier");
+            Console.WriteLine("=== Ajouter un hero ===");
+            Console.WriteLine("1-- hero");
             Console.WriteLine("2-- Nain");
             Console.WriteLine("3-- Elfe");
             Console.WriteLine("0-- Retour");
@@ -95,45 +97,38 @@ namespace ExoGuerrier.NET
                     Console.Clear();
                     break;
                 case 1:
-                    Console.Write("Nom du guerrier : ");
-                    string nomAjoutGuerrier = Console.ReadLine().Trim();
-                    if (string.IsNullOrEmpty(nomAjoutGuerrier))
+                    Console.Write("Nom du hero : ");
+                    string nomAjouthero = Console.ReadLine().Trim();
+                    if (string.IsNullOrEmpty(nomAjouthero))
                     {
                         Utils.InterditSaisie();
                         break;
                     }
-                    Console.Write("PV du guerrier : ");
-                    int pvAjoutGuerrier;
-                    bool successPvAjoutGuerrier = int.TryParse(
+                    Console.Write("PV du hero : ");
+                    int pvAjouthero;
+                    bool successPvAjouthero = int.TryParse(Console.ReadLine(), out pvAjouthero);
+                    if (!successPvAjouthero || pvAjouthero <= 0)
+                    {
+                        Utils.InterditSaisie();
+                        break;
+                    }
+                    Console.Write("Nombre d'ATQ du hero : ");
+                    int nbATQAjouthero;
+                    bool successnbATQAjouthero = int.TryParse(
                         Console.ReadLine(),
-                        out pvAjoutGuerrier
+                        out nbATQAjouthero
                     );
-                    if (!successPvAjoutGuerrier || pvAjoutGuerrier <= 0)
+                    if (!successnbATQAjouthero || nbATQAjouthero <= 0)
                     {
                         Utils.InterditSaisie();
                         break;
                     }
-                    Console.Write("Nombre d'ATQ du guerrier : ");
-                    int nbATQAjoutGuerrier;
-                    bool successnbATQAjoutGuerrier = int.TryParse(
-                        Console.ReadLine(),
-                        out nbATQAjoutGuerrier
-                    );
-                    if (!successnbATQAjoutGuerrier || nbATQAjoutGuerrier <= 0)
-                    {
-                        Utils.InterditSaisie();
-                        break;
-                    }
-                    Guerrier guerrierAjout = new Guerrier(
-                        nomAjoutGuerrier,
-                        pvAjoutGuerrier,
-                        nbATQAjoutGuerrier
-                    );
-                    listGuerriers.Add(guerrierAjout);
+                    Hero heroAjout = new Hero(nomAjouthero, pvAjouthero, nbATQAjouthero, false);
+                    listHeros.Add(heroAjout);
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Guerrier ajouté avec succès !");
-                    sauvegarde.SauvegarderGuerriers(listGuerriers);
+                    Console.WriteLine("hero ajouté avec succès !");
+                    sauvegarde.SauvegarderHeros(listHeros);
                     Console.ResetColor();
                     break;
                 case 2:
@@ -174,11 +169,11 @@ namespace ExoGuerrier.NET
                             nbATQAjoutNain,
                             porteArmureLourde
                         );
-                        listGuerriers.Add(nainAjout);
+                        listHeros.Add(nainAjout);
                         Console.Clear();
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine($"Nain {nomAjoutNain} ajouté avec succès !");
-                        sauvegarde.SauvegarderGuerriers(listGuerriers);
+                        sauvegarde.SauvegarderHeros(listHeros);
                         Console.ResetColor();
                     }
                     else
@@ -214,12 +209,12 @@ namespace ExoGuerrier.NET
                         Utils.InterditSaisie();
                         break;
                     }
-                    Elfe elfeAjout = new Elfe(nomAjoutElfe, pvAjoutElfe, nbATQAjoutElfe);
-                    listGuerriers.Add(elfeAjout);
+                    Elfe elfeAjout = new Elfe(nomAjoutElfe, pvAjoutElfe, nbATQAjoutElfe, false);
+                    listHeros.Add(elfeAjout);
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"Elfe {nomAjoutElfe} ajouté avec succès !");
-                    sauvegarde.SauvegarderGuerriers(listGuerriers);
+                    sauvegarde.SauvegarderHeros(listHeros);
                     Console.ResetColor();
                     break;
                 default:
@@ -233,10 +228,10 @@ namespace ExoGuerrier.NET
             Console.Clear();
             Console.WriteLine("=== Lancer un tournoi ===");
 
-            if (listGuerriers.Count < 2)
+            if (listHeros.Count < 2)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Il faut au moins deux guerriers pour lancer un tournoi.");
+                Console.WriteLine("Il faut au moins deux heros pour lancer un tournoi.");
                 Console.ResetColor();
                 Console.Write("Appuyez sur n'importe quelle touche pour retourner au menu : ");
                 Console.ReadKey();
@@ -244,32 +239,30 @@ namespace ExoGuerrier.NET
                 return;
             }
 
-            // Création d'une liste de participants en clonant les guerriers originaux
-            List<Guerrier> participants = new List<Guerrier>();
-            foreach (Guerrier guerrier in listGuerriers)
+            // Création d'une liste de participants en clonant les heros originaux
+            List<Hero> participants = new List<Hero>();
+            foreach (Hero hero in listHeros)
             {
-                // Je crée des clones de chaque guerrier présent
-                participants.Add((Guerrier)guerrier.Clone());
+                participants.Add((Hero)hero.Clone());
             }
 
-            // Création d'une copie de la liste des guerriers pour les participants
-            Random randomGuerrier = new Random();
+            Random randomHero = new Random();
 
             while (participants.Count > 1)
             {
-                // Sélection aléatoire de deux guerriers
-                int index1 = randomGuerrier.Next(participants.Count);
-                Guerrier guerrier1 = participants[index1];
+                int index1 = randomHero.Next(participants.Count);
+                Hero hero1 = participants[index1];
                 participants.RemoveAt(index1);
 
-                int index2 = randomGuerrier.Next(participants.Count);
-                Guerrier guerrier2 = participants[index2];
+                int index2 = randomHero.Next(participants.Count);
+                Hero hero2 = participants[index2];
                 participants.RemoveAt(index2);
 
-                Console.WriteLine($"Combat entre {guerrier1.GetNom()} et {guerrier2.GetNom()}");
+                Console.WriteLine($"Combat entre {hero1.GetNom()} et {hero2.GetNom()}");
+
                 Thread.Sleep(1000);
 
-                Guerrier gagnant = Guerrier.Duel(guerrier1, guerrier2);
+                Hero gagnant = Hero.Duel(hero1, hero2);
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine($"Le gagnant du duel est {gagnant.GetNom()}\n");
                 Console.ResetColor();
@@ -277,7 +270,7 @@ namespace ExoGuerrier.NET
                 participants.Add(gagnant);
             }
 
-            Guerrier champion = participants[0];
+            Hero champion = participants[0];
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"Le champion du tournoi est {champion.GetNom()} !");
             Console.ResetColor();

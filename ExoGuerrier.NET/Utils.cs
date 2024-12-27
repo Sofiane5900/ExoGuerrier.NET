@@ -10,13 +10,13 @@ namespace ExoGuerrier.NET
             Console.ResetColor();
         }
 
-        public static void AfficherListeGuerriers(List<Guerrier> listGuerriers)
+        public static void AfficherListeHeros(List<Hero> listHeros)
         {
             Console.Clear();
             Console.WriteLine("=== Afficher tous les guerriers ===");
-            foreach (Guerrier guerrier in listGuerriers)
+            foreach (Hero hero in listHeros)
             {
-                Console.WriteLine(guerrier.GetNom());
+                Console.WriteLine(hero.GetNom());
             }
             Console.Write("Appuyez sur n'importe quelle touche pour retourner au menu : ");
             Console.ReadKey();

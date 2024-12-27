@@ -1,11 +1,11 @@
 ﻿using ExoGuerrier.NET;
 
 Sauvegarde sauvegarde = new Sauvegarde();
-Guerrier galahad = new Guerrier("Galahad", 30, 5);
-Guerrier lancelot = new Guerrier("Lancelot", 30, 5);
-Nain gimli = new Nain("Gimli", 35, 2, true);
-Elfe legolas = new Elfe("Legolas", 30, 5);
-List<Guerrier> listGuerriers = new List<Guerrier> { galahad, lancelot, gimli, legolas };
+Hero galahad = new Hero("Galahad", 30, 1, false);
+Hero lancelot = new Hero("Lancelot", 30, 1, false);
+Nain gimli = new Nain("Gimli", 30, 1, true);
+Elfe legolas = new Elfe("Legolas", 30, 1, false);
+List<Hero> listHeros = new List<Hero> { galahad, lancelot, gimli, legolas };
 
-Menu menu = new Menu(listGuerriers, sauvegarde);
+Menu menu = new Menu(listHeros, sauvegarde);
 menu.AfficherMenu();

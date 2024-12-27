@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace ExoGuerrier.NET
 {
-    public class Guerrier : ICloneable
+    public class Hero : ICloneable
     {
         private string _nom;
         private int _pointsDeVie;
         private int _nbDesAttaque;
-
+        private bool _armureLourde;
         public string Nom
         {
             get => _nom;
@@ -27,45 +24,54 @@ namespace ExoGuerrier.NET
             get => _nbDesAttaque;
             set => _nbDesAttaque = value;
         }
+        public bool ArmureLourde
+        {
+            get => _armureLourde;
+            set => _armureLourde = value;
+        }
 
-        public Guerrier(string Nom, int PointsDeVie, int NbDesAttaque)
+        public Hero(string Nom, int PointsDeVie, int NbDesAttaque, bool ArmureLourde)
         {
             this.Nom = Nom;
             this.PointsDeVie = PointsDeVie;
             this.NbDesAttaque = NbDesAttaque;
+            this.ArmureLourde = ArmureLourde;
         }
 
-        // Méthodes publique
-
+        // Méthodes publiques
         public string GetNom() => Nom;
 
         public int GetPointsDeVie() => PointsDeVie;
 
         public int GetNbDesAttaque() => NbDesAttaque;
 
-        // Méthodes essentielles
-        public void AfficherInfos()
+        public virtual void AfficherInfos()
         {
-            GetNom();
-            GetPointsDeVie();
-            GetNbDesAttaque();
+            Console.WriteLine($"Nom: {Nom}, PV: {PointsDeVie}, ATQ: {NbDesAttaque}");
         }
 
         public int Attaquer()
         {
             Random random = new Random();
-            int dice;
             int degats = 0;
             for (int i = 0; i < NbDesAttaque; i++)
             {
-                dice = random.Next(0, 6);
-                degats += dice;
+                degats += random.Next(1, 7); // Dés de 1 à 6
             }
             return degats;
         }
 
         public virtual void SubirDegats(int degats)
         {
+            if (ArmureLourde)
+            {
+                degats /= 2;
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine(
+                    $"{Nom} porte une armure lourde, les dégâts sont réduits de moitié !"
+                );
+                Console.ResetColor();
+            }
             PointsDeVie -= degats;
             if (PointsDeVie < 0)
             {
@@ -80,7 +86,7 @@ namespace ExoGuerrier.NET
             }
         }
 
-        public static Guerrier Duel(Guerrier guerrier1, Guerrier guerrier2)
+        public static Hero Duel(Hero guerrier1, Hero guerrier2)
         {
             while (guerrier1.PointsDeVie > 0 && guerrier2.PointsDeVie > 0)
             {
@@ -103,13 +109,12 @@ namespace ExoGuerrier.NET
                 }
             }
 
-            // Idéalement cette ligne ne devrait jamais étre atteinte
-            return null;
+            return null; // Cette ligne ne devrait jamais être atteinte
         }
 
         public object Clone()
         {
-            return new Guerrier(this.Nom, this.PointsDeVie, this.NbDesAttaque);
+            return new Hero(this.Nom, this.PointsDeVie, this.NbDesAttaque, this.ArmureLourde);
         }
     }
 }
