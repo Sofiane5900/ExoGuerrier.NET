@@ -6,14 +6,17 @@ namespace ExoGuerrier.NET
     public class Menu
     {
         private List<Guerrier> listGuerriers;
+        private Sauvegarde sauvegarde;
 
-        public Menu(List<Guerrier> guerriers)
+        public Menu(List<Guerrier> guerriers, Sauvegarde sauvegarde)
         {
             listGuerriers = guerriers;
+            this.sauvegarde = sauvegarde;
         }
 
         public void AfficherMenu()
         {
+            sauvegarde.ChargerGuerriers(out listGuerriers);
             while (true)
             {
                 AnsiConsole.Write(
@@ -22,13 +25,15 @@ namespace ExoGuerrier.NET
                 var affichageMenu = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
                         .Title("=== Menu Duel ===")
-                        .PageSize(4)
+                        .PageSize(6)
                         .AddChoices(
                             new[]
                             {
                                 "Ajouter un guerrier",
                                 "Afficher tous les guerriers",
                                 "Lancer un tournoi",
+                                "Sauvegarder mes guerriers",
+                                "Charger mes guerriers",
                                 "Quitter",
                             }
                         )
@@ -39,6 +44,8 @@ namespace ExoGuerrier.NET
                     "Ajouter un guerrier" => 1,
                     "Afficher tous les guerriers" => 2,
                     "Lancer un tournoi" => 3,
+                    "Sauvegarder mes guerriers" => 4,
+                    "Charger mes guerriers" => 5,
                     "Quitter" => 0,
                 };
 
@@ -56,6 +63,11 @@ namespace ExoGuerrier.NET
                     case 3:
                         Console.Clear();
                         LancerTournoi();
+                        break;
+                    case 4:
+                        sauvegarde.SauvegarderGuerriers(listGuerriers);
+                        break;
+                    case 5:
                         break;
                     default:
                         Utils.InterditSaisie();

@@ -7,15 +7,26 @@ namespace ExoGuerrier.NET
 {
     public class Sauvegarde
     {
-        string path;
-        string filePath;
+        private string _path;
+        private string _filePath;
+
+        public string Path
+        {
+            get => _path;
+            set => _path = value;
+        }
+        public string FilePath
+        {
+            get => _filePath;
+            set => _filePath = value;
+        }
 
         public Sauvegarde()
         {
             // Je précise ce qu'est mon dossier
-            path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            Path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             // Je précise ou mon fichier derva étre ecrit
-            filePath = Path.Combine(path, "saveGuerriers.txt");
+            FilePath = System.IO.Path.Combine(Path, "saveGuerriers.txt");
         }
 
         // Méthode qui prend en paramétre ma liste de guerriers
@@ -24,7 +35,7 @@ namespace ExoGuerrier.NET
             // Je Serialize ma listGuerriers en format .json
             string jsonString = JsonSerializer.Serialize(listGuerriers);
             // Je crée un noueau fichier, qui écrit tout ce qu'il y a dans ma listGuerriers
-            File.WriteAllText(filePath, jsonString);
+            File.WriteAllText(FilePath, jsonString);
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Liste des guerriers sauvegardée avec succès !");
             Console.ResetColor();
@@ -32,15 +43,13 @@ namespace ExoGuerrier.NET
 
         public void ChargerGuerriers(out List<Guerrier> listGuerriers)
         {
-            if (File.Exists(filePath))
+            // Si le fichier existe
+            if (File.Exists(FilePath))
             {
                 // Je lis tout ce qu'il y a dans mon fichier
-                string jsonString = File.ReadAllText(filePath);
+                string jsonString = File.ReadAllText(FilePath);
                 // Ma liste des guerriers est deserialize pour étre passé en tant qu'objet et non .json
                 listGuerriers = JsonSerializer.Deserialize<List<Guerrier>>(jsonString);
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Liste des guerriers chargée avec succès !");
-                Console.ResetColor();
             }
             else
             {
