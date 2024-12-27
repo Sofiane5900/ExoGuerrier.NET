@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Spectre.Console;
 
 namespace ExoGuerrier.NET
@@ -86,7 +87,12 @@ namespace ExoGuerrier.NET
                     break;
                 case 1:
                     Console.Write("Nom du guerrier : ");
-                    string nomAjoutGuerrier = Console.ReadLine();
+                    string nomAjoutGuerrier = Console.ReadLine().Trim();
+                    if (string.IsNullOrEmpty(nomAjoutGuerrier))
+                    {
+                        Utils.InterditSaisie();
+                        break;
+                    }
                     Console.Write("PV du guerrier : ");
                     int pvAjoutGuerrier;
                     bool successPvAjoutGuerrier = int.TryParse(
@@ -143,7 +149,12 @@ namespace ExoGuerrier.NET
                         break;
                     }
                     Console.Write("Le Nain porte-t-il une armure lourde ? (true/false) :");
-                    string armureLourdeNain = Console.ReadLine();
+                    string armureLourdeNain = Console.ReadLine().Trim();
+                    if (string.IsNullOrEmpty(armureLourdeNain))
+                    {
+                        Utils.InterditSaisie();
+                        break;
+                    }
                     if (armureLourdeNain == "true" || armureLourdeNain == "false")
                     {
                         bool porteArmureLourde = bool.Parse(armureLourdeNain);
@@ -167,7 +178,12 @@ namespace ExoGuerrier.NET
                     break;
                 case 3:
                     Console.Write("Nom de l'Elfe : ");
-                    string nomAjoutElfe = Console.ReadLine();
+                    string nomAjoutElfe = Console.ReadLine().Trim();
+                    if (string.IsNullOrEmpty(nomAjoutElfe))
+                    {
+                        Utils.InterditSaisie();
+                        break;
+                    }
                     Console.Write("PV de l'Elfe : ");
                     int pvAjoutElfe;
                     bool successPvAjoutElfe = int.TryParse(Console.ReadLine(), out pvAjoutElfe);
