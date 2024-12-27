@@ -7,13 +7,13 @@ namespace ExoGuerrier.NET
     {
         private List<Hero> listHeros;
         private Sauvegarde sauvegarde;
-        private Creation creation;
+ 
 
-        public Menu(List<Hero> listHeros, Sauvegarde sauvegarde, Creation creation)
+        public Menu(List<Hero> listHeros, Sauvegarde sauvegarde)
         {
             this.listHeros = listHeros;
             this.sauvegarde = sauvegarde;
-            this.creation = creation;
+
         }
 
         public void AfficherMenu()
@@ -35,7 +35,6 @@ namespace ExoGuerrier.NET
                                 "Ajouter un hero",
                                 "Afficher tous les heros",
                                 "Lancer un tournoi",
-                                "Entrez dans le mode donjon",
                                 "Quitter",
                             }
                         )
@@ -46,7 +45,6 @@ namespace ExoGuerrier.NET
                     "Ajouter un hero" => 1,
                     "Afficher tous les heros" => 2,
                     "Lancer un tournoi" => 3,
-                    "Entrez dans le mode donjon" => 4,
                     "Quitter" => 0,
                     _ => -1,
                 };
@@ -57,7 +55,7 @@ namespace ExoGuerrier.NET
                         Environment.Exit(0);
                         break;
                     case 1:
-                        creation.AjoutHero();
+                        AjoutHero();
                         sauvegarde.SauvegarderHeros(listHeros);
                         break;
                     case 2:
@@ -67,16 +65,110 @@ namespace ExoGuerrier.NET
                         Console.Clear();
                         LancerTournoi();
                         break;
-                    case 4:
-                        //Hero heroDonjon = ExoGuerrier.NET.Donjon.Creation.CreerHero();
-                        break;
                     default:
                         Utils.InterditSaisie();
                         break;
                 }
             }
         }
-     
+
+        public void AjoutHero()
+        {
+            Console.Clear();
+            AnsiConsole.Write(
+                new FigletText("Creation de Hero").LeftJustified().Color(Color.Red)
+            );
+
+            var choixAjoutPrompt = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("=== Sélectionnez une [green]option[/] pour créer un personnage : ===")
+                    .AddChoices("Hero", "Nain", "Elfe", "Retour")
+            );
+
+            int choixAjoutMenu = choixAjoutPrompt switch
+            {
+                "Hero" => 1,
+                "Nain" => 2,
+                "Elfe" => 3,
+                "Retour" => 0,
+                _ => -1,
+            };
+
+            switch (choixAjoutMenu)
+            {
+                case 0:
+                    Console.Clear();
+                    return;
+                case 1:
+                    AjouterPersonnage("Hero");
+                    break;
+                case 2:
+                    AjouterPersonnage("Nain");
+                    break;
+                case 3:
+                    AjouterPersonnage("Elfe");
+                    break;
+                default:
+                    Utils.InterditSaisie();
+                    break;
+            }
+        }
+
+        public void AjouterPersonnage(string classePersonnage)
+        {
+            Console.Clear();
+            AnsiConsole.Write(
+                new FigletText($"Creation de {classePersonnage}").LeftJustified().Color(Color.Red)
+            );
+
+            string nom = AnsiConsole.Ask<string>($"Quel est le [green]nom[/] de votre {classePersonnage} ?");
+            if (string.IsNullOrWhiteSpace(nom))
+            {
+                Utils.InterditSaisie();
+                return;
+            }
+
+            int pv = AnsiConsole.Prompt(
+                new TextPrompt<int>($"Combien de [red]points de vie[/] pour le {classePersonnage} ?")
+                    .DefaultValue(30)
+                    .Validate(value => value > 0 ? ValidationResult.Success() : ValidationResult.Error("[red]Les points de vie doivent être supérieurs à 0.[/]"))
+            );
+
+            int nbATQ = AnsiConsole.Prompt(
+                new TextPrompt<int>($"Nombre d'[green]attaques[/] pour le {classePersonnage} ?")
+                    .DefaultValue(5)
+                    .Validate(value => value > 0 ? ValidationResult.Success() : ValidationResult.Error("[red]Le nombre d'attaques doit être supérieur à 0.[/]"))
+            );
+
+            bool porteArmure = false;
+            if (classePersonnage == "Nain")
+            {
+                porteArmure = AnsiConsole.Confirm("Le Nain porte-t-il une [yellow]armure lourde[/] ?");
+            }
+
+            Hero newHero = null;
+            switch (classePersonnage)
+            {
+                case "Hero":
+                    newHero = new Hero(nom, pv, nbATQ, false);
+                    break;
+                case "Nain":
+                    newHero = new Nain(nom, pv, nbATQ, porteArmure);
+                    break;
+                case "Elfe":
+                    newHero = new Elfe(nom, pv, nbATQ, false);
+                    break;
+            }
+
+            listHeros.Add(newHero);  // Ajoute directement au même objet listHeros
+
+            // Sauvegarde après ajout
+            sauvegarde.SauvegarderHeros(listHeros);
+
+            Console.Clear();
+            Utils.AfficherListeHeros(listHeros, sauvegarde);
+            AnsiConsole.MarkupLine($"[green]{classePersonnage} {nom} ajouté avec succès ![/]");
+        }
         private void LancerTournoi()
         {
             Console.Clear();

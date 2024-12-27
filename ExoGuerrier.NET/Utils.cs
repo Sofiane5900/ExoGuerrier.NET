@@ -29,11 +29,13 @@ namespace ExoGuerrier.NET
             AnsiConsole.Write(
                 new FigletText("Mes heros").LeftJustified().Color(Color.Red)
             );
-            // Pour chaque
+            Console.WriteLine("=== Menu Heros ===");
+            // Pour chaque hero dans ma liste de heros, j'affiche le nom
             foreach (Hero hero in listHeros)
             {
                 Console.WriteLine(hero.GetNom());
             }
+            
             Console.Write("Voulez-vous supprimer un hero ? (o/n) : ");
             string choixTournoi = Console.ReadLine().ToLower();
             if (choixTournoi == "o")
