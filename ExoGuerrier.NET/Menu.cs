@@ -10,12 +10,13 @@ namespace ExoGuerrier.NET
 
         public Menu(List<Hero> listHeros, Sauvegarde sauvegarde)
         {
-            listHeros = listHeros;
+            this.listHeros = listHeros;
             this.sauvegarde = sauvegarde;
         }
 
         public void AfficherMenu()
         {
+            sauvegarde.SauvegarderHeros(listHeros);
             sauvegarde.ChargerHeros(out listHeros);
 
             while (true)
@@ -66,7 +67,6 @@ namespace ExoGuerrier.NET
                         LancerTournoi();
                         break;
                     case 4:
-                        // Code pour le mode donjon
                         break;
                     default:
                         Utils.InterditSaisie();
