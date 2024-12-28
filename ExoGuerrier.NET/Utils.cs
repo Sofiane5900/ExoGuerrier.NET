@@ -2,7 +2,7 @@ using Spectre.Console;
 
 namespace ExoGuerrier.NET
 {
-    public  class Utils
+    internal class Utils
     {
         private Sauvegarde sauvegarde;
 
@@ -69,7 +69,7 @@ namespace ExoGuerrier.NET
                 }
             }
 
-            // Sauvegarde après suppression
+            
             sauvegarde.SauvegarderHeros(listHeros);
         }
     }

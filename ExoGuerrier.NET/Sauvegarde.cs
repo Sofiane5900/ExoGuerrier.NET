@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace ExoGuerrier.NET
 {
-    public class Sauvegarde
+    internal class Sauvegarde
     {
         private string _path;
         private string _filePath;

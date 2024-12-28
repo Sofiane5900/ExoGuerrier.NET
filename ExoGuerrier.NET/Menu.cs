@@ -1,18 +1,22 @@
 using System.Text.Json;
+using ExoGuerrier.NET.Donjon;
+using ExoGuerrier.NET.Histoire;
 using Spectre.Console;
 
 namespace ExoGuerrier.NET
 {
-    public class Menu
+    internal class Menu
     {
         private List<Hero> listHeros;
         private Sauvegarde sauvegarde;
- 
+        private MenuDonjon menuDonjon;
 
-        public Menu(List<Hero> listHeros, Sauvegarde sauvegarde)
+
+        public Menu(List<Hero> listHeros, Sauvegarde sauvegarde, MenuDonjon menuDonjon)
         {
             this.listHeros = listHeros;
             this.sauvegarde = sauvegarde;
+            this.menuDonjon = menuDonjon;
 
         }
 
@@ -35,6 +39,7 @@ namespace ExoGuerrier.NET
                                 "Ajouter un hero",
                                 "Afficher tous les heros",
                                 "Lancer un tournoi",
+                                "Entre dans le mode donjon",
                                 "Quitter",
                             }
                         )
@@ -45,6 +50,7 @@ namespace ExoGuerrier.NET
                     "Ajouter un hero" => 1,
                     "Afficher tous les heros" => 2,
                     "Lancer un tournoi" => 3,
+                    "Entre dans le mode donjon" => 4,
                     "Quitter" => 0,
                     _ => -1,
                 };
@@ -64,6 +70,10 @@ namespace ExoGuerrier.NET
                     case 3:
                         Console.Clear();
                         LancerTournoi();
+                        break;
+                    case 4:
+                        Console.Clear();
+                        menuDonjon.LancerDonjon();
                         break;
                     default:
                         Utils.InterditSaisie();
@@ -146,21 +156,21 @@ namespace ExoGuerrier.NET
                 porteArmure = AnsiConsole.Confirm("Le Nain porte-t-il une [yellow]armure lourde[/] ?");
             }
 
-            Hero newHero = null;
+            Hero nouveauHero = null;
             switch (classePersonnage)
             {
                 case "Hero":
-                    newHero = new Hero(nom, pv, nbATQ, false);
+                    nouveauHero = new Hero(nom, pv, nbATQ, false);
                     break;
                 case "Nain":
-                    newHero = new Nain(nom, pv, nbATQ, porteArmure);
+                    nouveauHero = new Nain(nom, pv, nbATQ, porteArmure);
                     break;
                 case "Elfe":
-                    newHero = new Elfe(nom, pv, nbATQ, false);
+                    nouveauHero = new Elfe(nom, pv, nbATQ, false);
                     break;
             }
 
-            listHeros.Add(newHero);  // Ajoute directement au même objet listHeros
+            listHeros.Add(nouveauHero);  // Ajoute directement au même objet listHeros
 
             // Sauvegarde après ajout
             sauvegarde.SauvegarderHeros(listHeros);

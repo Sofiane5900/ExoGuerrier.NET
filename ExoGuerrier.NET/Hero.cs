@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace ExoGuerrier.NET
 {
-    public class Hero : ICloneable
+    internal class Hero : ICloneable
     {
         private string _nom;
         private int _pointsDeVie;
