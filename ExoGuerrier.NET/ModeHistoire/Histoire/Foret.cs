@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ExoGuerrier.NET.Donjon;
 using Spectre.Console;
 
-namespace ExoGuerrier.NET.Histoire
+namespace ExoGuerrier.NET.ModeHistoire.Histoire
 {
     internal class Foret
     {
         public Foret() { }
 
-        public void LancerForet()
+        public void LancerForet(Hero hero)
         {
             Console.Clear();
             AnsiConsole.Write(new FigletText("Foret").LeftJustified().Color(Color.Green));
@@ -45,29 +46,38 @@ namespace ExoGuerrier.NET.Histoire
             switch (choixForet)
             {
                 case "Chemin sûr mais plus long":
-                    EvenementAleatoire(5);
+                    EvenementAleatoire(5, hero);
                     break;
                 case "Chemin rapide mais risqué":
-                    EvenementAleatoire(10);
+                    EvenementAleatoire(10, hero);
                     break;
                 case "Explorer la forêt à l'aveugle":
-                    EvenementAleatoire(19);
+                    EvenementAleatoire(19, hero);
                     break;
                 default:
                     break;
             }
         }
 
-        private void EvenementAleatoire(int chance)
+        private void EvenementAleatoire(int chance, Hero hero)
         {
             Random random = new Random();
             int aleatoire = random.Next(1, 20);
             if (aleatoire <= chance)
             {
-
+                CombatForet(hero);
             }
         }
 
+        private void CombatForet(Hero hero)
+        {
+            Loup loup = new Loup("Loup", 10, 3);
+            Console.Clear();
+            AnsiConsole.Write(new FigletText("Foret").LeftJustified().Color(Color.Green));
+            AnsiConsole.WriteLine("=== Combat ===\n");
+            AnsiConsole.WriteLine($"Vous êtes attaqué par un {loup.NomEnnemi}!");
+            AnsiConsole.WriteLine($"PV: {loup.PointsDeVie}, ATQ: {loup.NbDesAttaque}");
+            loup.PredictionCombat(loup, hero);
         }
     }
 }

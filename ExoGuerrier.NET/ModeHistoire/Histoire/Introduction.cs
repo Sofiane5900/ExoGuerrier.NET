@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Spectre.Console;
 
-namespace ExoGuerrier.NET.Histoire
+namespace ExoGuerrier.NET.ModeHistoire.Histoire
 {
     internal class Introduction
     {
@@ -26,11 +26,10 @@ namespace ExoGuerrier.NET.Histoire
 
         public Introduction()
         {
-            this.nomHero = string.Empty;
-            this.hero = null;
+            nomHero = string.Empty;
         }
 
-        public void CreationHero()
+        public void CreationHero(Hero hero)
         {
             Console.Clear();
             while (true)

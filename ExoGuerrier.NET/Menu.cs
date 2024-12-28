@@ -1,6 +1,6 @@
 using System.Text.Json;
 using ExoGuerrier.NET.Donjon;
-using ExoGuerrier.NET.Histoire;
+using ExoGuerrier.NET.ModeHistoire.Histoire;
 using Spectre.Console;
 
 namespace ExoGuerrier.NET
@@ -9,9 +9,9 @@ namespace ExoGuerrier.NET
     {
         private List<Hero> listHeros;
         private Sauvegarde sauvegarde;
-        private MenuDonjon menuDonjon;
+        private MenuHistoire menuDonjon;
 
-        public Menu(List<Hero> listHeros, Sauvegarde sauvegarde, MenuDonjon menuDonjon)
+        public Menu(List<Hero> listHeros, Sauvegarde sauvegarde, MenuHistoire menuDonjon)
         {
             this.listHeros = listHeros;
             this.sauvegarde = sauvegarde;
@@ -70,7 +70,7 @@ namespace ExoGuerrier.NET
                         break;
                     case 4:
                         Console.Clear();
-                        menuDonjon.LancerDonjon();
+                        menuDonjon.StartModeHistoire();
                         break;
                     default:
                         Utils.InterditSaisie();
