@@ -11,18 +11,15 @@ namespace ExoGuerrier.NET
         private Sauvegarde sauvegarde;
         private MenuDonjon menuDonjon;
 
-
         public Menu(List<Hero> listHeros, Sauvegarde sauvegarde, MenuDonjon menuDonjon)
         {
             this.listHeros = listHeros;
             this.sauvegarde = sauvegarde;
             this.menuDonjon = menuDonjon;
-
         }
 
         public void AfficherMenu()
         {
-            
             while (true)
             {
                 sauvegarde.ChargerHeros(out listHeros);
@@ -85,19 +82,17 @@ namespace ExoGuerrier.NET
         public void AjoutHero()
         {
             Console.Clear();
-            AnsiConsole.Write(
-                new FigletText("Creation de Hero").LeftJustified().Color(Color.Red)
-            );
+            AnsiConsole.Write(new FigletText("Creation de Hero").LeftJustified().Color(Color.Red));
 
             var choixAjoutPrompt = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("=== Sélectionnez une [green]option[/] pour créer un personnage : ===")
-                    .AddChoices("Hero", "Nain", "Elfe", "Retour")
+                    .AddChoices("Guerrier", "Nain", "Elfe", "Retour")
             );
 
             int choixAjoutMenu = choixAjoutPrompt switch
             {
-                "Hero" => 1,
+                "Guerrier" => 1,
                 "Nain" => 2,
                 "Elfe" => 3,
                 "Retour" => 0,
@@ -110,7 +105,7 @@ namespace ExoGuerrier.NET
                     Console.Clear();
                     return;
                 case 1:
-                    AjouterPersonnage("Hero");
+                    AjouterPersonnage("Guerrier");
                     break;
                 case 2:
                     AjouterPersonnage("Nain");
@@ -131,7 +126,9 @@ namespace ExoGuerrier.NET
                 new FigletText($"Creation de {classePersonnage}").LeftJustified().Color(Color.Red)
             );
 
-            string nom = AnsiConsole.Ask<string>($"Quel est le [green]nom[/] de votre {classePersonnage} ?");
+            string nom = AnsiConsole.Ask<string>(
+                $"Quel est le [green]nom[/] de votre {classePersonnage} ?"
+            );
             if (string.IsNullOrWhiteSpace(nom))
             {
                 Utils.InterditSaisie();
@@ -139,27 +136,43 @@ namespace ExoGuerrier.NET
             }
 
             int pv = AnsiConsole.Prompt(
-                new TextPrompt<int>($"Combien de [red]points de vie[/] pour le {classePersonnage} ?")
+                new TextPrompt<int>(
+                    $"Combien de [red]points de vie[/] pour le {classePersonnage} ?"
+                )
                     .DefaultValue(30)
-                    .Validate(value => value > 0 ? ValidationResult.Success() : ValidationResult.Error("[red]Les points de vie doivent être supérieurs à 0.[/]"))
+                    .Validate(value =>
+                        value > 0
+                            ? ValidationResult.Success()
+                            : ValidationResult.Error(
+                                "[red]Les points de vie doivent être supérieurs à 0.[/]"
+                            )
+                    )
             );
 
             int nbATQ = AnsiConsole.Prompt(
                 new TextPrompt<int>($"Nombre d'[green]attaques[/] pour le {classePersonnage} ?")
                     .DefaultValue(5)
-                    .Validate(value => value > 0 ? ValidationResult.Success() : ValidationResult.Error("[red]Le nombre d'attaques doit être supérieur à 0.[/]"))
+                    .Validate(value =>
+                        value > 0
+                            ? ValidationResult.Success()
+                            : ValidationResult.Error(
+                                "[red]Le nombre d'attaques doit être supérieur à 0.[/]"
+                            )
+                    )
             );
 
             bool porteArmure = false;
             if (classePersonnage == "Nain")
             {
-                porteArmure = AnsiConsole.Confirm("Le Nain porte-t-il une [yellow]armure lourde[/] ?");
+                porteArmure = AnsiConsole.Confirm(
+                    "Le Nain porte-t-il une [yellow]armure lourde[/] ?"
+                );
             }
 
             Hero nouveauHero = null;
             switch (classePersonnage)
             {
-                case "Hero":
+                case "Guerrier":
                     nouveauHero = new Hero(nom, pv, nbATQ, false);
                     break;
                 case "Nain":
@@ -170,7 +183,7 @@ namespace ExoGuerrier.NET
                     break;
             }
 
-            listHeros.Add(nouveauHero);  // Ajoute directement au même objet listHeros
+            listHeros.Add(nouveauHero); // Ajoute directement au même objet listHeros
 
             // Sauvegarde après ajout
             sauvegarde.SauvegarderHeros(listHeros);
@@ -179,6 +192,7 @@ namespace ExoGuerrier.NET
             Utils.AfficherListeHeros(listHeros, sauvegarde);
             AnsiConsole.MarkupLine($"[green]{classePersonnage} {nom} ajouté avec succès ![/]");
         }
+
         private void LancerTournoi()
         {
             Console.Clear();

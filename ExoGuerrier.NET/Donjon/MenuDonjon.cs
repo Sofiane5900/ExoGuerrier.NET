@@ -11,21 +11,20 @@ namespace ExoGuerrier.NET.Donjon
     internal class MenuDonjon
     {
         private Introduction introduction;
- 
+        private Foret foret;
+
         public MenuDonjon()
         {
-            this.introduction = new Introduction(); 
+            this.introduction = new Introduction();
+            this.foret = new Foret();
         }
-
-        
 
         public void LancerDonjon()
         {
             Console.Clear();
-            introduction.ChoisirNomHero();
-            introduction.LancerPrologue();
-
-            
+            ////introduction.CreationHero();
+            //introduction.LancerPrologue();
+            foret.LancerForet();
         }
     }
 }
