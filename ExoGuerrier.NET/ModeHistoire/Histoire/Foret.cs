@@ -12,16 +12,17 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
     {
         private Ennemi ennemi;
 
-        public Foret() { }
+        public Foret()
+        {
+            ennemi = new Ennemi("Loup", 10, 2);
+        }
 
         public void LancerForet(Hero hero)
         {
             if (hero == null)
             {
                 Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Erreur : le héros n'a pas été crée.");
-                Console.ResetColor();
+                AnsiConsole.MarkupLine("[red]Erreur : le héros n'a pas été crée.[/]");
                 return;
             }
 
@@ -57,28 +58,21 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
             switch (choixForet)
             {
                 case "Chemin sûr mais plus long":
-                    EvenementAleatoire(5, hero);
+                    ennemi.EvenementAleatoire(5, hero, ennemi);
                     break;
                 case "Chemin rapide mais risqué":
-                    EvenementAleatoire(10, hero);
+                    ennemi.EvenementAleatoire(10, hero, ennemi);
                     break;
                 case "Explorer la forêt à l'aveugle":
-                    EvenementAleatoire(19, hero);
+                    ennemi.EvenementAleatoire(20, hero, ennemi);
                     break;
                 default:
                     break;
             }
-        }
 
-        private void EvenementAleatoire(int chance, Hero hero)
-        {
-            Random random = new Random();
-            int aleatoire = random.Next(1, 20);
-            if (aleatoire <= chance)
-            {
-                Ennemi ennemi = new Ennemi("Loup", 10, 3);
-                ennemi.Combat(hero, ennemi);
-            }
+            Console.Clear();
+            AnsiConsole.MarkupLine("[italic]Vous continuez votre chemin à travers la forêt...[/]");
+            Thread.Sleep(2000);
         }
     }
 }

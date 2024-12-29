@@ -8,12 +8,16 @@ namespace ExoGuerrier.NET.Donjon
         private Introduction introduction;
         private Foret foret;
         private Hero hero;
+        private Crypte crypte;
+        private Boss boss;
 
         public MenuHistoire()
         {
             this.introduction = new Introduction();
-            this.foret = new Foret();
             this.hero = null; // Le hero de ma classe est null tant qu'il n'est pas crée
+            this.foret = new Foret();
+            this.crypte = new Crypte();
+            this.boss = new Boss();
         }
 
         public static bool isGameOver = false;
@@ -39,6 +43,8 @@ namespace ExoGuerrier.NET.Donjon
             if (!MenuHistoire.isGameOver)
             {
                 foret.LancerForet(this.hero);
+                crypte.LancerCrypte(this.hero);
+                boss.LancerBoss(this.hero);
             }
         }
     }

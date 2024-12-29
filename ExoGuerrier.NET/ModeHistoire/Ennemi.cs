@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using ExoGuerrier.NET;
@@ -138,13 +139,12 @@ namespace ExoGuerrier.NET.Donjon
 
                 hero.SubirDegats(degatsEnnemi);
 
-                // Affichage de l'état après l'attaque
                 if (ennemi.PointsDeVie <= 0)
                 {
                     AnsiConsole.MarkupLine(
                         $"[bold green][underline]Vous avez vaincu le {ennemi.NomEnnemi} ![/][/]"
                     );
-                    hero.PointsDeVie += 5; // Le héros récupère des PV après la victoire
+                    hero.PointsDeVie += 5;
                     AnsiConsole.MarkupLine(
                         $"[plum2]Vous avez récupéré 5 points de vie. PV du héros : {hero.PointsDeVie}[/]"
                     );
@@ -158,7 +158,7 @@ namespace ExoGuerrier.NET.Donjon
                     MenuHistoire.GameOver();
                 }
 
-                Thread.Sleep(1000); // Petite pause avant de continuer le combat
+                Thread.Sleep(2000); // Petite pause avant de continuer
             }
         }
 
@@ -215,6 +215,16 @@ namespace ExoGuerrier.NET.Donjon
                     break;
                 default:
                     break;
+            }
+        }
+
+        public void EvenementAleatoire(int chance, Hero hero, Ennemi ennemi)
+        {
+            Random random = new Random();
+            int resultat = random.Next(1, 21); // Dés de 1 à 20
+            if (resultat <= chance)
+            {
+                Combat(hero, ennemi);
             }
         }
     }
