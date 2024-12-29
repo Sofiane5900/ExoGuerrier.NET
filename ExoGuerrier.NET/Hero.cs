@@ -61,6 +61,11 @@ namespace ExoGuerrier.NET
             return degats;
         }
 
+        public void Defendre(int degats)
+        {
+            degats /= 2;
+        }
+
         public virtual void SubirDegats(int degats)
         {
             if (ArmureLourde)

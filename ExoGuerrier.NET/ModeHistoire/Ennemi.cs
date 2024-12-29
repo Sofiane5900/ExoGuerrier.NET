@@ -67,6 +67,45 @@ namespace ExoGuerrier.NET.Donjon
             }
         }
 
+        public void Combat(Hero hero, Ennemi ennemi)
+        {
+            PredictionCombat(ennemi, hero);
+            Console.Clear();
+            AnsiConsole.Write(new FigletText("Combat").LeftJustified().Color(Color.Red));
+            AnsiConsole.WriteLine("=== Combat ===\n");
+            AnsiConsole.WriteLine($"Vous êtes attaqué par un {NomEnnemi}!");
+            AnsiConsole.WriteLine($"PV: {PointsDeVie}, ATQ: {NbDesAttaque}");
+            while (hero.PointsDeVie > 0 && PointsDeVie > 0)
+            {
+                int degats = Attaquer();
+                hero.SubirDegats(degats);
+                if (hero.PointsDeVie > 0)
+                {
+                    degats = hero.Attaquer();
+                    SubirDegats(degats);
+                    if (PointsDeVie <= 0)
+                    {
+                        AnsiConsole.WriteLine($"[red][green]Vous avez vaincu le[/]{NomEnnemi}[/]");
+                        hero.PointsDeVie += 5;
+                        AnsiConsole.WriteLine(
+                            $"Vous avez récupéré 5 points de vie. PV: {hero.PointsDeVie}"
+                        );
+                    }
+                    else
+                    {
+                        AnsiConsole.WriteLine("[yellow]Le combat continue...[/]");
+                        Thread.Sleep(1000);
+                    }
+                }
+                else
+                {
+                    AnsiConsole.WriteLine("[red]Vous avez été vaincu.[/]");
+                    Thread.Sleep(1000);
+                    MenuHistoire.GameOver();
+                }
+            }
+        }
+
         public void PredictionCombat(Ennemi ennemi, Hero hero)
         {
             Console.Clear();
