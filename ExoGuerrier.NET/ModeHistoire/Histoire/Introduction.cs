@@ -104,7 +104,7 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
             );
 
             AnsiConsole.MarkupLine(
-                $"[blue]Le Maire[/] vous tend une [plum2]potion de vie[/], ainsi que une [white]carte du village et de la région environnante[/] avec la [magenta]Crypte Obscure[/] marquée d'un symbole étrange."
+                $"[blue]Le Maire[/] vous tend une [plum2]potion de vie (+1 potion)[/],ainsi que une [white]carte du village et de la région environnante[/] avec la [magenta]Crypte Obscure[/] marquée d'un symbole étrange."
             );
             hero.RecevoirPotions();
             AnsiConsole.MarkupLine(
@@ -136,7 +136,7 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
                 AnsiConsole.MarkupLine(
                     "[yellow]Vous vous éloignez, mais un sentiment d'inquiétude vous habite. Vous savez que tôt ou tard, vous devrez affronter ce mal.[/]"
                 );
-                Thread.Sleep(2000);
+                Thread.Sleep(3000);
                 MenuHistoire.GameOver();
             }
         }

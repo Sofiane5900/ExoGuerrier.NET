@@ -49,7 +49,6 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
                 "[red]3. Explorer le passage mystérieux à droite qui semble mener à un tombeau ancien.[/]"
             );
 
-            // Choix du joueur
             string choixCrypte = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("[bold green]Que faites-vous ?[/]")

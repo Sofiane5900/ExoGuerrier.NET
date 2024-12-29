@@ -1,4 +1,5 @@
-﻿using ExoGuerrier.NET.ModeHistoire.Histoire;
+﻿using ExoGuerrier.NET.ModeHistoire;
+using ExoGuerrier.NET.ModeHistoire.Histoire;
 using Spectre.Console;
 
 namespace ExoGuerrier.NET.Donjon
@@ -10,6 +11,7 @@ namespace ExoGuerrier.NET.Donjon
         private Hero hero;
         private Crypte crypte;
         private Boss boss;
+        private Final final;
 
         public MenuHistoire()
         {
@@ -18,6 +20,7 @@ namespace ExoGuerrier.NET.Donjon
             this.foret = new Foret();
             this.crypte = new Crypte();
             this.boss = new Boss();
+            this.final = new Final();
         }
 
         public static bool isGameOver = false;
@@ -39,12 +42,13 @@ namespace ExoGuerrier.NET.Donjon
             introduction.CreationHero();
             this.hero = introduction.Hero; // Le hero de ma classe est maintenant celui de la classe Introduction
             introduction.LancerPrologue();
-            // Si le bool isGameOver est faux, alors on lance la foret
+            // Si le bool isGameOver est faux, alors on lance la suite du prologue
             if (!MenuHistoire.isGameOver)
             {
                 foret.LancerForet(this.hero);
                 crypte.LancerCrypte(this.hero);
                 boss.LancerBoss(this.hero);
+                final.LancerFinal(this.hero);
             }
         }
     }

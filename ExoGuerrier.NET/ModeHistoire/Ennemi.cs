@@ -74,7 +74,7 @@ namespace ExoGuerrier.NET.Donjon
             PredictionCombat(ennemi, hero);
             Console.Clear();
             AnsiConsole.Write(new FigletText("Combat").LeftJustified().Color(Color.Red));
-            AnsiConsole.MarkupLine("=== Combat ===`\n");
+            AnsiConsole.MarkupLine("=== Combat ===\n");
             AnsiConsole.MarkupLine($"Vous êtes attaqué par un [bold red]{ennemi.NomEnnemi}[/]!");
             AnsiConsole.MarkupLine(
                 $"[green]PV du héros :[/] {hero.PointsDeVie} | [red]PV de l'ennemi :[/] {ennemi.PointsDeVie}"
@@ -104,7 +104,7 @@ namespace ExoGuerrier.NET.Donjon
                         {
                             hero.UtiliserPotions(); // Potion = +10 PV
                             AnsiConsole.MarkupLine(
-                                "[bold plum2]Vous utilisez une potion et récupérez 10 points de vie.[/]"
+                                $"[bold plum2]Vous utilisez une potion et récupérez 10 points de vie (PV:{hero.PointsDeVie}), (Il vous reste {hero.Potions} potions)[/]"
                             );
                         }
                         else
@@ -133,7 +133,7 @@ namespace ExoGuerrier.NET.Donjon
                 {
                     degatsEnnemi = hero.Defendre(degatsEnnemi); // Defendre = (degatsEnnemi / 2)
                     AnsiConsole.MarkupLine(
-                        $"[bold blue]Vous avez réduit les dégâts à [bold red]{degatsEnnemi}[/] grâce à votre défense."
+                        $"[bold blue]Vous avez réduit les dégâts à [bold red]{degatsEnnemi}[/] grâce à votre défense.[/]"
                     );
                 }
 
@@ -194,18 +194,18 @@ namespace ExoGuerrier.NET.Donjon
             }
 
             AnsiConsole.MarkupLine(
-                "\n[italic]Préparez-vous... Le combat ne dépend pas que des chiffres, mais aussi de votre stratégie et de votre bravoure ![/]"
+                "[italic]Préparez-vous... Le combat ne dépend pas que des chiffres, mais aussi de votre stratégie et de votre bravoure ![/]\n"
             );
 
             string choixPrediction = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
-                    .Title("[bold green]Attaque[/]")
-                    .AddChoices("Attaquer", "Fuir")
+                    .Title("[bold green]Que choisisez vous ?[/]\n")
+                    .AddChoices("Combattre", "Fuir")
             );
 
             switch (choixPrediction)
             {
-                case "Attaquer":
+                case "Combattre":
                     break;
                 case "Fuir":
                     Console.Clear();
