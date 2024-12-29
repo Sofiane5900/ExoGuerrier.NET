@@ -102,9 +102,25 @@ namespace ExoGuerrier.NET.Donjon
                 "\n[italic]Préparez-vous... Le combat ne dépend pas que des chiffres, mais aussi de votre stratégie et de votre bravoure ![/]"
             );
 
-            AnsiConsole.MarkupLine(
-                $"[bold green]Appuyez sur n'importe quel touche pour continuer...[/]"
+            string choixPrediction = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("[bold green]Que faites-vous ?[/]")
+                    .AddChoices("Attaquer", "Fuir")
             );
+
+            switch (choixPrediction)
+            {
+                case "Attaquer":
+                    break;
+                case "Fuir":
+                    Console.Clear();
+                    AnsiConsole.WriteLine("Vous avez fui le combat.");
+                    Thread.Sleep(2000);
+                    MenuHistoire.GameOver();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

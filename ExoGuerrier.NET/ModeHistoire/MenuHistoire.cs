@@ -25,7 +25,7 @@ namespace ExoGuerrier.NET.Donjon
             foret.LancerForet(this.hero);
         }
 
-        public static void GameOver()
+        public static bool GameOver()
         {
             Console.Clear();
             AnsiConsole.MarkupLine("[bold red]GAME OVER[/]");
@@ -33,6 +33,7 @@ namespace ExoGuerrier.NET.Donjon
             AnsiConsole.MarkupLine(
                 "[bold yellow]Réessayez, aventurier. Le monde a besoin de vous.[/]"
             );
+            return true;
         }
     }
 }

@@ -87,6 +87,13 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
             AnsiConsole.WriteLine($"Vous êtes attaqué par un {loup.NomEnnemi}!");
             AnsiConsole.WriteLine($"PV: {loup.PointsDeVie}, ATQ: {loup.NbDesAttaque}");
             loup.PredictionCombat(loup, hero);
+
+            // Si GameOver est true, alors on arrête le combat.
+            if (MenuHistoire.GameOver())
+            {
+                return;
+            }
+
             AnsiConsole.WriteLine($"[red] Le {loup.NomEnnemi} vous attaque [/]");
             int degats = loup.Attaquer();
             hero.SubirDegats(degats);
@@ -95,10 +102,28 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
                 AnsiConsole.WriteLine($"[green] Vous attaquez le {loup.NomEnnemi} [/]");
                 degats = hero.Attaquer();
                 loup.SubirDegats(degats);
+
+                if (loup.PointsDeVie <= 0)
+                {
+                    AnsiConsole.WriteLine($"[red] Vous avez vaincu le {loup.NomEnnemi} [/]");
+                    AnsiConsole.WriteLine("Vous avez gagné le combat.");
+                    hero.PointsDeVie += 5;
+                    AnsiConsole.WriteLine(
+                        $"Vous avez récupéré 5 points de vie. PV: {hero.PointsDeVie}"
+                    );
+                }
+                else
+                {
+                    AnsiConsole.WriteLine("[yellow]Le combat continue...[/]");
+                    Thread.Sleep(1000);
+                    CombatForet(hero);
+                }
             }
             else
             {
-                AnsiConsole.WriteLine("Vous avez été vaincu.");
+                AnsiConsole.WriteLine("[red]Vous avez été vaincu. [/]");
+                Thread.Sleep(1000);
+                MenuHistoire.GameOver();
             }
         }
     }
