@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ExoGuerrier.NET.Donjon;
 using Spectre.Console;
 
 namespace ExoGuerrier.NET.ModeHistoire.Histoire
@@ -134,6 +135,8 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
                 AnsiConsole.MarkupLine(
                     "[yellow]Vous vous éloignez, mais un sentiment d'inquiétude vous habite. Vous savez que tôt ou tard, vous devrez affronter ce mal.[/]"
                 );
+                Thread.Sleep(2000);
+                MenuHistoire.GameOver();
             }
         }
     }

@@ -22,18 +22,23 @@ namespace ExoGuerrier.NET.Donjon
             introduction.CreationHero();
             this.hero = introduction.Hero; // Le hero de ma classe est maintenant celui de la classe Introduction
             introduction.LancerPrologue();
-            foret.LancerForet(this.hero);
+            if (MenuHistoire.isGameOver = false)
+            {
+                foret.LancerForet(this.hero);
+            }
         }
 
-        public static bool GameOver()
+        public static bool isGameOver = false;
+
+        public static void GameOver()
         {
+            isGameOver = true;
             Console.Clear();
             AnsiConsole.MarkupLine("[bold red]GAME OVER[/]");
             AnsiConsole.MarkupLine("[italic grey]Votre aventure se termine ici...[/]");
             AnsiConsole.MarkupLine(
                 "[bold yellow]Réessayez, aventurier. Le monde a besoin de vous.[/]"
             );
-            return true;
         }
     }
 }

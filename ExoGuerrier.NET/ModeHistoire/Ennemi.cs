@@ -104,7 +104,7 @@ namespace ExoGuerrier.NET.Donjon
 
             string choixPrediction = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
-                    .Title("[bold green]Que faites-vous ?[/]")
+                    .Title("[bold green]Attaque[/]")
                     .AddChoices("Attaquer", "Fuir")
             );
 

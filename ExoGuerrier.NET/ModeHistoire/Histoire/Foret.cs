@@ -89,41 +89,45 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
             loup.PredictionCombat(loup, hero);
 
             // Si GameOver est true, alors on arrête le combat.
-            if (MenuHistoire.GameOver())
+
+            if (MenuHistoire.isGameOver)
             {
                 return;
             }
-
-            AnsiConsole.WriteLine($"[red] Le {loup.NomEnnemi} vous attaque [/]");
-            int degats = loup.Attaquer();
-            hero.SubirDegats(degats);
-            if (hero.PointsDeVie > 0)
-            {
-                AnsiConsole.WriteLine($"[green] Vous attaquez le {loup.NomEnnemi} [/]");
-                degats = hero.Attaquer();
-                loup.SubirDegats(degats);
-
-                if (loup.PointsDeVie <= 0)
-                {
-                    AnsiConsole.WriteLine($"[red] Vous avez vaincu le {loup.NomEnnemi} [/]");
-                    AnsiConsole.WriteLine("Vous avez gagné le combat.");
-                    hero.PointsDeVie += 5;
-                    AnsiConsole.WriteLine(
-                        $"Vous avez récupéré 5 points de vie. PV: {hero.PointsDeVie}"
-                    );
-                }
-                else
-                {
-                    AnsiConsole.WriteLine("[yellow]Le combat continue...[/]");
-                    Thread.Sleep(1000);
-                    CombatForet(hero);
-                }
-            }
             else
             {
-                AnsiConsole.WriteLine("[red]Vous avez été vaincu. [/]");
-                Thread.Sleep(1000);
-                MenuHistoire.GameOver();
+                while (hero.PointsDeVie > 0 && loup.PointsDeVie > 0)
+                {
+                    int degats = loup.Attaquer();
+                    hero.SubirDegats(degats);
+                    if (hero.PointsDeVie > 0)
+                    {
+                        degats = hero.Attaquer();
+                        loup.SubirDegats(degats);
+                        if (loup.PointsDeVie <= 0)
+                        {
+                            AnsiConsole.WriteLine(
+                                $"[green] Vous avez vaincu le[/][red]{loup.NomEnnemi}[/]"
+                            );
+                            hero.PointsDeVie += 5;
+                            AnsiConsole.WriteLine(
+                                $"Vous avez récupéré 5 points de vie. PV: {hero.PointsDeVie}"
+                            );
+                        }
+                        else
+                        {
+                            AnsiConsole.WriteLine("[yellow]Le combat continue...[/]");
+                            Thread.Sleep(1000);
+                            CombatForet(hero);
+                        }
+                    }
+                    else
+                    {
+                        AnsiConsole.WriteLine("[red]Vous avez été vaincu. [/]");
+                        Thread.Sleep(1000);
+                        MenuHistoire.GameOver();
+                    }
+                }
             }
         }
     }
