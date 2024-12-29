@@ -16,18 +16,6 @@ namespace ExoGuerrier.NET.Donjon
             this.hero = null; // Le hero de ma classe est null tant qu'il n'est pas crée
         }
 
-        public void StartModeHistoire()
-        {
-            Console.Clear();
-            introduction.CreationHero();
-            this.hero = introduction.Hero; // Le hero de ma classe est maintenant celui de la classe Introduction
-            introduction.LancerPrologue();
-            if (MenuHistoire.isGameOver = false)
-            {
-                foret.LancerForet(this.hero);
-            }
-        }
-
         public static bool isGameOver = false;
 
         public static void GameOver()
@@ -39,6 +27,19 @@ namespace ExoGuerrier.NET.Donjon
             AnsiConsole.MarkupLine(
                 "[bold yellow]Réessayez, aventurier. Le monde a besoin de vous.[/]"
             );
+        }
+
+        public void StartModeHistoire()
+        {
+            Console.Clear();
+            introduction.CreationHero();
+            this.hero = introduction.Hero; // Le hero de ma classe est maintenant celui de la classe Introduction
+            introduction.LancerPrologue();
+            // Si le bool isGameOver est faux, alors on lance la foret
+            if (!MenuHistoire.isGameOver)
+            {
+                foret.LancerForet(this.hero);
+            }
         }
     }
 }

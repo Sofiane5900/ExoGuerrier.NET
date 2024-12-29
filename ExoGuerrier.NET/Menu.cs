@@ -26,7 +26,7 @@ namespace ExoGuerrier.NET
                 AnsiConsole.Write(
                     new FigletText("Donjon & Heros").LeftJustified().Color(Color.Red)
                 );
-                var affichageMenu = AnsiConsole.Prompt(
+                string affichageMenu = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
                         .Title("=== Menu ===")
                         .PageSize(5)
@@ -36,7 +36,7 @@ namespace ExoGuerrier.NET
                                 "Ajouter un hero",
                                 "Afficher tous les heros",
                                 "Lancer un tournoi",
-                                "Entre dans le mode donjon",
+                                "Entre dans le mode histoire",
                                 "Quitter",
                             }
                         )
@@ -47,7 +47,7 @@ namespace ExoGuerrier.NET
                     "Ajouter un hero" => 1,
                     "Afficher tous les heros" => 2,
                     "Lancer un tournoi" => 3,
-                    "Entre dans le mode donjon" => 4,
+                    "Entre dans le mode histoire" => 4,
                     "Quitter" => 0,
                     _ => -1,
                 };
