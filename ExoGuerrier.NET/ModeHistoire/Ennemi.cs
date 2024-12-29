@@ -76,19 +76,19 @@ namespace ExoGuerrier.NET.Donjon
             AnsiConsole.MarkupLine(
                 $"[bold green]{hero.GetNom()}[/] contre [bold red]{ennemi.NomEnnemi}[/] !"
             );
-            AnsiConsole.MarkupLine($"[blue]Points de Vie du héros :[/] {hero.PointsDeVie}");
+            AnsiConsole.MarkupLine($"[green]Points de Vie du héros :[/] {hero.PointsDeVie}");
             AnsiConsole.MarkupLine($"[red]Points de Vie de l'ennemi :[/] {ennemi.PointsDeVie}\n");
 
             if (ennemi.PointsDeVie > hero.PointsDeVie)
             {
                 AnsiConsole.MarkupLine(
-                    $"[bold red]{ennemi.NomEnnemi} semble plus puissant que vous. Sa force et son endurance surpassent les vôtres, mais tout n'est pas perdu ![/]"
+                    $"[bold red]{ennemi.NomEnnemi} semble plus puissant que vous, votre entraînement et votre détermination pourraient bien faire la différence ![/]"
                 );
             }
             else if (ennemi.PointsDeVie < hero.PointsDeVie)
             {
                 AnsiConsole.MarkupLine(
-                    $"[bold green]{hero.GetNom()} domine dans cette confrontation ! Votre entraînement et votre détermination pourraient bien faire la différence.[/]"
+                    $"[bold green]{hero.GetNom()} domine dans cette confrontation ! [/]"
                 );
             }
             else
@@ -100,6 +100,10 @@ namespace ExoGuerrier.NET.Donjon
 
             AnsiConsole.MarkupLine(
                 "\n[italic]Préparez-vous... Le combat ne dépend pas que des chiffres, mais aussi de votre stratégie et de votre bravoure ![/]"
+            );
+
+            AnsiConsole.MarkupLine(
+                $"[bold green]Appuyez sur n'importe quel touche pour continuer...[/]"
             );
         }
     }

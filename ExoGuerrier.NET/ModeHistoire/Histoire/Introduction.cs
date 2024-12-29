@@ -37,6 +37,7 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
                 AnsiConsole.Write(new FigletText("Prologue").LeftJustified().Color(Color.Red));
                 AnsiConsole.WriteLine("=== Création du personnage ===\n");
                 AnsiConsole.Write("Quel est votre nom, aventurier ? : ");
+
                 string nomHero = Console.ReadLine();
 
                 if (string.IsNullOrWhiteSpace(nomHero))
@@ -49,6 +50,7 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
                 {
                     NomHero = nomHero;
                 }
+                Console.WriteLine(" ");
                 string choixCreationPrompt = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
                         .Title("=== Sélectionnez une [green]classe[/] pour votre Hero : ===")
@@ -95,18 +97,16 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
             );
 
             // Appel du maire
+            AnsiConsole.MarkupLine("[blue]Le Maire[/] du village, un vieil homme, vous appelle.\n");
             AnsiConsole.MarkupLine(
-                "\n  [blue]Le Maire[/] du village, un vieil homme, vous appelle."
-            );
-            AnsiConsole.MarkupLine(
-                $"[blue]Le Maire :[/] \"{NomHero}, nous avons besoin de vous. Notre village est en danger. Les créatures des ténèbres se rassemblent à la [magenta]Crypte Obscure[/], à l'est. Seul un courageux aventurier comme vous peut espérer stopper cette menace.\""
+                $"[blue]Le Maire:[/] [italic]\"{NomHero}, nous avons besoin de vous. Notre village est en danger. Les créatures des ténèbres se rassemblent à la [magenta]Crypte Obscure[/], à l'est. Seul un courageux aventurier comme vous peut espérer stopper cette menace.\"\n[/]"
             );
 
             AnsiConsole.MarkupLine(
-                "[blue]Le Maire[/] [white] vous tend une carte du village et de la région environnante,[/] avec la [magenta]Crypte Obscure[/] marquée d'un symbole étrange."
+                "[blue]Le Maire[/] [white]vous tend une carte du village et de la région environnante,[/] avec la [magenta]Crypte Obscure[/] marquée d'un symbole étrange."
             );
             AnsiConsole.MarkupLine(
-                "\n[blue]Le Maire :[/] \"Je vous en prie, allez à la [magenta]Crypte[/], explorez les lieux, et si vous en avez la force, détruisez ce mal avant qu'il ne soit trop tard. Le destin de Valombre repose entre vos mains.\""
+                "\n[blue]Le Maire:[/][italic] \"Je vous en prie, allez à la [magenta]Crypte[/], explorez les lieux, et si vous en avez la force, détruisez ce mal avant qu'il ne soit trop tard. Le destin de Valombre repose entre vos mains.\"[/]\n"
             );
 
             // Choix du joueur
@@ -129,7 +129,7 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
             {
                 Console.Clear();
                 AnsiConsole.MarkupLine(
-                    "\n[blue]Le Maire :[/] \"Je comprends... mais sachez que le mal grandit chaque jour. Revenez lorsque vous serez prêt, le village aura besoin de vous.\""
+                    "\n[blue]Le Maire:[/][italic] \"Je comprends... mais sachez que le mal grandit chaque jour. Revenez lorsque vous serez prêt, le village aura besoin de vous.\"[/]"
                 );
                 AnsiConsole.MarkupLine(
                     "[yellow]Vous vous éloignez, mais un sentiment d'inquiétude vous habite. Vous savez que tôt ou tard, vous devrez affronter ce mal.[/]"

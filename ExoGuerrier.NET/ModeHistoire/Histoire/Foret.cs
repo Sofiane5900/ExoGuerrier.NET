@@ -87,6 +87,19 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
             AnsiConsole.WriteLine($"Vous êtes attaqué par un {loup.NomEnnemi}!");
             AnsiConsole.WriteLine($"PV: {loup.PointsDeVie}, ATQ: {loup.NbDesAttaque}");
             loup.PredictionCombat(loup, hero);
+            AnsiConsole.WriteLine($"[red] Le {loup.NomEnnemi} vous attaque [/]");
+            int degats = loup.Attaquer();
+            hero.SubirDegats(degats);
+            if (hero.PointsDeVie > 0)
+            {
+                AnsiConsole.WriteLine($"[green] Vous attaquez le {loup.NomEnnemi} [/]");
+                degats = hero.Attaquer();
+                loup.SubirDegats(degats);
+            }
+            else
+            {
+                AnsiConsole.WriteLine("Vous avez été vaincu.");
+            }
         }
     }
 }

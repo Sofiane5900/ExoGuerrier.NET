@@ -1,4 +1,5 @@
 ﻿using ExoGuerrier.NET.ModeHistoire.Histoire;
+using Spectre.Console;
 
 namespace ExoGuerrier.NET.Donjon
 {
@@ -19,10 +20,19 @@ namespace ExoGuerrier.NET.Donjon
         {
             Console.Clear();
             introduction.CreationHero();
-
             this.hero = introduction.Hero; // Le hero de ma classe est maintenant celui de la classe Introduction
             introduction.LancerPrologue();
             foret.LancerForet(this.hero);
+        }
+
+        public static void GameOver()
+        {
+            Console.Clear();
+            AnsiConsole.MarkupLine("[bold red]GAME OVER[/]");
+            AnsiConsole.MarkupLine("[italic grey]Votre aventure se termine ici...[/]");
+            AnsiConsole.MarkupLine(
+                "[bold yellow]Réessayez, aventurier. Le monde a besoin de vous.[/]"
+            );
         }
     }
 }
