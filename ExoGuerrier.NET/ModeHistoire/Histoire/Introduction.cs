@@ -29,7 +29,7 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
             nomHero = string.Empty;
         }
 
-        public void CreationHero(Hero hero)
+        public void CreationHero()
         {
             Console.Clear();
             while (true)

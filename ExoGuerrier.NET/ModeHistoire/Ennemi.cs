@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ExoGuerrier.NET;
+using ExoGuerrier.NET.ModeHistoire.Histoire;
 using Spectre.Console;
 
 namespace ExoGuerrier.NET.Donjon
@@ -97,7 +98,6 @@ namespace ExoGuerrier.NET.Donjon
                 );
             }
 
-            // Encouragement final
             AnsiConsole.MarkupLine(
                 "\n[italic]Préparez-vous... Le combat ne dépend pas que des chiffres, mais aussi de votre stratégie et de votre bravoure ![/]"
             );

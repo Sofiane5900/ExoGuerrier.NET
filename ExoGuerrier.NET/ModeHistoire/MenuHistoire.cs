@@ -12,15 +12,16 @@ namespace ExoGuerrier.NET.Donjon
         {
             this.introduction = new Introduction();
             this.foret = new Foret();
-            Hero hero = introduction.Hero;
+            this.hero = null;
         }
 
         public void StartModeHistoire()
         {
             Console.Clear();
-            introduction.CreationHero(hero);
+            introduction.CreationHero();
+            this.hero = introduction.Hero;
             introduction.LancerPrologue();
-            foret.LancerForet(hero);
+            foret.LancerForet(this.hero);
         }
     }
 }

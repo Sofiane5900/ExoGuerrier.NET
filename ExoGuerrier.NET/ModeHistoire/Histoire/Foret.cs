@@ -14,6 +14,15 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
 
         public void LancerForet(Hero hero)
         {
+            if (hero == null)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Erreur : le héros n'a pas été crée.");
+                Console.ResetColor();
+                return;
+            }
+
             Console.Clear();
             AnsiConsole.Write(new FigletText("Foret").LeftJustified().Color(Color.Green));
             AnsiConsole.WriteLine("=== Chemin Forestier  ===\n");
