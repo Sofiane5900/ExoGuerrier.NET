@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using ExoGuerrier.NET.Donjon;
 using Spectre.Console;
 
-namespace ExoGuerrier.NET.ModeHistoire
+namespace ExoGuerrier.NET.ModeHistoire.Histoire
 {
     internal class Final
     {

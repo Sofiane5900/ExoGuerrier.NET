@@ -1,5 +1,4 @@
-﻿using ExoGuerrier.NET.ModeHistoire;
-using ExoGuerrier.NET.ModeHistoire.Histoire;
+﻿using ExoGuerrier.NET.ModeHistoire.Histoire;
 using Spectre.Console;
 
 namespace ExoGuerrier.NET.Donjon
