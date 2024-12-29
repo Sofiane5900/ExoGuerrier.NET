@@ -69,40 +69,96 @@ namespace ExoGuerrier.NET.Donjon
 
         public void Combat(Hero hero, Ennemi ennemi)
         {
+            // Affichage de la prédiction avant le combat
             PredictionCombat(ennemi, hero);
             Console.Clear();
             AnsiConsole.Write(new FigletText("Combat").LeftJustified().Color(Color.Red));
-            AnsiConsole.WriteLine("=== Combat ===\n");
-            AnsiConsole.WriteLine($"Vous êtes attaqué par un {NomEnnemi}!");
-            AnsiConsole.WriteLine($"PV: {PointsDeVie}, ATQ: {NbDesAttaque}");
-            while (hero.PointsDeVie > 0 && PointsDeVie > 0)
+            AnsiConsole.MarkupLine("=== Combat ===`\n");
+            AnsiConsole.MarkupLine($"Vous êtes attaqué par un [bold red]{ennemi.NomEnnemi}[/]!");
+            AnsiConsole.MarkupLine(
+                $"[green]PV du héros :[/] {hero.PointsDeVie} | [red]PV de l'ennemi :[/] {ennemi.PointsDeVie}"
+            );
+            AnsiConsole.MarkupLine($"[navy]ATQ de l'ennemi :[/] {ennemi.NbDesAttaque}");
+
+            while (hero.PointsDeVie > 0 && ennemi.PointsDeVie > 0)
             {
-                int degats = Attaquer();
-                hero.SubirDegats(degats);
-                if (hero.PointsDeVie > 0)
+                string choixCombat = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                        .Title("[bold green]Que voulez-vous faire ?[/]")
+                        .AddChoices("Attaquer", "Utiliser une potion", "Fuir", "Défendre")
+                );
+
+                switch (choixCombat)
                 {
-                    degats = hero.Attaquer();
-                    SubirDegats(degats);
-                    if (PointsDeVie <= 0)
-                    {
-                        AnsiConsole.WriteLine($"[red][green]Vous avez vaincu le[/]{NomEnnemi}[/]");
-                        hero.PointsDeVie += 5;
-                        AnsiConsole.WriteLine(
-                            $"Vous avez récupéré 5 points de vie. PV: {hero.PointsDeVie}"
+                    case "Attaquer":
+                        int degats = hero.Attaquer(); // degats = la méthode Attaquer du héros
+                        ennemi.SubirDegats(degats);
+                        AnsiConsole.MarkupLine(
+                            $"[bold green]Vous attaquez[/] {ennemi.NomEnnemi} et lui infligez [bold red]{degats}[/] points de dégâts."
                         );
-                    }
-                    else
-                    {
-                        AnsiConsole.WriteLine("[yellow]Le combat continue...[/]");
+                        break;
+
+                    case "Utiliser une potion":
+                        if (hero.Potions > 0)
+                        {
+                            hero.UtiliserPotions(); // Potion = +10 PV
+                            AnsiConsole.MarkupLine(
+                                "[bold plum2]Vous utilisez une potion et récupérez 10 points de vie.[/]"
+                            );
+                        }
+                        else
+                        {
+                            AnsiConsole.MarkupLine("[bold red]Vous n'avez plus de potions ![/]");
+                        }
+                        break;
+
+                    case "Fuir":
+                        AnsiConsole.MarkupLine(
+                            "[bold yellow]Vous avez décidé de fuir le combat ![/]"
+                        );
                         Thread.Sleep(1000);
-                    }
+                        MenuHistoire.GameOver(); // Appel à GameOver si on fuit
+                        return;
+
+                    case "Défendre":
+                        AnsiConsole.MarkupLine(
+                            "[bold blue]Vous vous préparez à défendre contre les attaques ennemies.[/]"
+                        );
+                        break;
                 }
-                else
+
+                int degatsEnnemi = ennemi.Attaquer(); // degatsEnnemi = la méthode Attaquer de l'ennemi
+                if (choixCombat == "Défendre")
                 {
-                    AnsiConsole.WriteLine("[red]Vous avez été vaincu.[/]");
+                    degatsEnnemi = hero.Defendre(degatsEnnemi); // Defendre = (degatsEnnemi / 2)
+                    AnsiConsole.MarkupLine(
+                        $"[bold blue]Vous avez réduit les dégâts à [bold red]{degatsEnnemi}[/] grâce à votre défense."
+                    );
+                }
+
+                hero.SubirDegats(degatsEnnemi);
+
+                // Affichage de l'état après l'attaque
+                if (ennemi.PointsDeVie <= 0)
+                {
+                    AnsiConsole.MarkupLine(
+                        $"[bold green][underline]Vous avez vaincu le {ennemi.NomEnnemi} ![/][/]"
+                    );
+                    hero.PointsDeVie += 5; // Le héros récupère des PV après la victoire
+                    AnsiConsole.MarkupLine(
+                        $"[plum2]Vous avez récupéré 5 points de vie. PV du héros : {hero.PointsDeVie}[/]"
+                    );
+                }
+
+                // Si le héros meurt
+                if (hero.PointsDeVie <= 0)
+                {
+                    AnsiConsole.MarkupLine("[bold red]Vous avez été vaincu.[/]");
                     Thread.Sleep(1000);
                     MenuHistoire.GameOver();
                 }
+
+                Thread.Sleep(1000); // Petite pause avant de continuer le combat
             }
         }
 

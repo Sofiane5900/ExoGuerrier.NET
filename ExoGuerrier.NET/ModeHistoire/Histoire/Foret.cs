@@ -80,27 +80,5 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
                 ennemi.Combat(hero, ennemi);
             }
         }
-
-        //private void CombatForet(Hero hero)
-        //{
-        //    Loup loup = new Loup("Loup", 10, 3);
-        //    loup.PredictionCombat(loup, hero);
-        //    Console.Clear();
-        //    AnsiConsole.Write(new FigletText("Foret").LeftJustified().Color(Color.Green));
-        //    AnsiConsole.WriteLine("=== Combat ===\n");
-        //    AnsiConsole.WriteLine($"Vous êtes attaqué par un {loup.NomEnnemi}!");
-        //    AnsiConsole.WriteLine($"PV: {loup.PointsDeVie}, ATQ: {loup.NbDesAttaque}");
-
-        //    // Si GameOver est true, alors on arrête le combat.
-
-        //    if (MenuHistoire.isGameOver)
-        //    {
-        //        return;
-        //    }
-        //    else
-        //    {
-
-        //    }
-        //}
     }
 }

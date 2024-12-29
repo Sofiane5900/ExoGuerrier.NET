@@ -6,15 +6,17 @@ namespace ExoGuerrier.NET
     {
         private Sauvegarde sauvegarde;
 
-        public Sauvegarde Sauvegarde { get => sauvegarde; set => sauvegarde = value; }
-
-        
+        public Sauvegarde Sauvegarde
+        {
+            get => sauvegarde;
+            set => sauvegarde = value;
+        }
 
         public Utils(Sauvegarde sauvegarde)
         {
             this.sauvegarde = sauvegarde;
-
         }
+
         public static void InterditSaisie()
         {
             Console.Clear();
@@ -26,16 +28,14 @@ namespace ExoGuerrier.NET
         public static void AfficherListeHeros(List<Hero> listHeros, Sauvegarde sauvegarde)
         {
             Console.Clear();
-            AnsiConsole.Write(
-                new FigletText("Mes heros").LeftJustified().Color(Color.Red)
-            );
+            AnsiConsole.Write(new FigletText("Mes heros").LeftJustified().Color(Color.Red));
             Console.WriteLine("=== Menu Heros ===");
             // Pour chaque hero dans ma liste de heros, j'affiche le nom
             foreach (Hero hero in listHeros)
             {
                 Console.WriteLine(hero.GetNom());
             }
-            
+
             Console.Write("Voulez-vous supprimer un hero ? (o/n) : ");
             string choixTournoi = Console.ReadLine().ToLower();
             if (choixTournoi == "o")
@@ -53,10 +53,10 @@ namespace ExoGuerrier.NET
             Console.Clear();
             var choixSupprimer = AnsiConsole.Prompt(
                 new SelectionPrompt<String>()
-                .Title("Selectionnez les heros a [red]supprimer[/]")
-                .PageSize(10)
-                .MoreChoicesText("[blue](Utilisez les fléches pour voir plus de hero)[/]")
-                .AddChoices(listHeros.Select(hero => hero.GetNom()).ToArray())
+                    .Title("Selectionnez les heros a [red]supprimer[/]")
+                    .PageSize(10)
+                    .MoreChoicesText("[blue](Utilisez les fléches pour voir plus de hero)[/]")
+                    .AddChoices(listHeros.Select(hero => hero.GetNom()).ToArray())
             );
 
             foreach (char hero in choixSupprimer)
@@ -69,7 +69,6 @@ namespace ExoGuerrier.NET
                 }
             }
 
-            
             sauvegarde.SauvegarderHeros(listHeros);
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.Json.Serialization;
+using Spectre.Console;
 
 namespace ExoGuerrier.NET
 {
@@ -9,6 +10,7 @@ namespace ExoGuerrier.NET
         private int _pointsDeVie;
         private int _nbDesAttaque;
         private bool _armureLourde;
+        private int _potion;
         public string Nom
         {
             get => _nom;
@@ -30,12 +32,19 @@ namespace ExoGuerrier.NET
             set => _armureLourde = value;
         }
 
+        public int Potions
+        {
+            get => _potion;
+            set => _potion = value;
+        }
+
         public Hero(string Nom, int PointsDeVie, int NbDesAttaque, bool ArmureLourde)
         {
             this.Nom = Nom;
             this.PointsDeVie = PointsDeVie;
             this.NbDesAttaque = NbDesAttaque;
             this.ArmureLourde = ArmureLourde;
+            this.Potions = 0; // 0 potions au début
         }
 
         // Méthodes publiques
@@ -61,9 +70,23 @@ namespace ExoGuerrier.NET
             return degats;
         }
 
-        public void Defendre(int degats)
+        public int Defendre(int degats)
         {
             degats /= 2;
+            AnsiConsole.WriteLine($"{Nom} se défend et réduit les dégâts à {degats}.");
+            return degats;
+        }
+
+        public void UtiliserPotions()
+        {
+            Potions--;
+            PointsDeVie += 10;
+            AnsiConsole.WriteLine($"{Nom} a utilisé une potion, il a récupéré 10 PV.");
+        }
+
+        public void RecevoirPotions()
+        {
+            Potions += 1;
         }
 
         public virtual void SubirDegats(int degats)

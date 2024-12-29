@@ -104,8 +104,9 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
             );
 
             AnsiConsole.MarkupLine(
-                "[blue]Le Maire[/] [white]vous tend une carte du village et de la région environnante,[/] avec la [magenta]Crypte Obscure[/] marquée d'un symbole étrange."
+                $"[blue]Le Maire[/] vous tend une [plum2]potion de vie[/], ainsi que une [white]carte du village et de la région environnante[/] avec la [magenta]Crypte Obscure[/] marquée d'un symbole étrange."
             );
+            hero.RecevoirPotions();
             AnsiConsole.MarkupLine(
                 "\n[blue]Le Maire:[/][italic] \"Je vous en prie, allez à la [magenta]Crypte[/], explorez les lieux, et si vous en avez la force, détruisez ce mal avant qu'il ne soit trop tard. Le destin de Valombre repose entre vos mains.\"[/]\n"
             );
