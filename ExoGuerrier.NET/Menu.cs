@@ -67,6 +67,7 @@ namespace ExoGuerrier.NET
                         LancerTournoi();
                         break;
                     case 4:
+                        // TODO code dojon
                         break;
                     default:
                         Utils.InterditSaisie();
