@@ -1,6 +1,6 @@
 ﻿using ExoGuerrier.NET;
 
-public class Nain : Hero
+internal class Nain : Hero
 {
     private bool _armureLourde;
 

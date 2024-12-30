@@ -1,30 +1,32 @@
 using System.Text.Json;
+using ExoGuerrier.NET.Donjon;
+using ExoGuerrier.NET.ModeHistoire.Histoire;
 using Spectre.Console;
 
 namespace ExoGuerrier.NET
 {
-    public class Menu
+    internal class Menu
     {
         private List<Hero> listHeros;
         private Sauvegarde sauvegarde;
+        private MenuHistoire menuDonjon;
 
-        public Menu(List<Hero> listHeros, Sauvegarde sauvegarde)
+        public Menu(List<Hero> listHeros, Sauvegarde sauvegarde, MenuHistoire menuDonjon)
         {
             this.listHeros = listHeros;
             this.sauvegarde = sauvegarde;
+            this.menuDonjon = menuDonjon;
         }
 
         public void AfficherMenu()
         {
-            sauvegarde.SauvegarderHeros(listHeros);
-            sauvegarde.ChargerHeros(out listHeros);
-
             while (true)
             {
+                sauvegarde.ChargerHeros(out listHeros);
                 AnsiConsole.Write(
                     new FigletText("Donjon & Heros").LeftJustified().Color(Color.Red)
                 );
-                var affichageMenu = AnsiConsole.Prompt(
+                string affichageMenu = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
                         .Title("=== Menu ===")
                         .PageSize(5)
@@ -34,7 +36,7 @@ namespace ExoGuerrier.NET
                                 "Ajouter un hero",
                                 "Afficher tous les heros",
                                 "Lancer un tournoi",
-                                "Entrez dans le mode donjon",
+                                "Entre dans le mode histoire",
                                 "Quitter",
                             }
                         )
@@ -45,7 +47,7 @@ namespace ExoGuerrier.NET
                     "Ajouter un hero" => 1,
                     "Afficher tous les heros" => 2,
                     "Lancer un tournoi" => 3,
-                    "Entrez dans le mode donjon" => 4,
+                    "Entre dans le mode histoire" => 4,
                     "Quitter" => 0,
                     _ => -1,
                 };
@@ -60,14 +62,15 @@ namespace ExoGuerrier.NET
                         sauvegarde.SauvegarderHeros(listHeros);
                         break;
                     case 2:
-                        Utils.AfficherListeHeros(listHeros);
+                        Utils.AfficherListeHeros(listHeros, sauvegarde);
                         break;
                     case 3:
                         Console.Clear();
                         LancerTournoi();
                         break;
                     case 4:
-                        // TODO code dojon
+                        Console.Clear();
+                        menuDonjon.StartModeHistoire();
                         break;
                     default:
                         Utils.InterditSaisie();
@@ -76,152 +79,118 @@ namespace ExoGuerrier.NET
             }
         }
 
-        private void AjoutHero()
+        public void AjoutHero()
         {
             Console.Clear();
-            Console.WriteLine("=== Ajouter un hero ===");
-            Console.WriteLine("1-- hero");
-            Console.WriteLine("2-- Nain");
-            Console.WriteLine("3-- Elfe");
-            Console.WriteLine("0-- Retour");
-            Console.Write("Faites votre choix :");
-            int choixAjoutMenu;
-            bool successChoixAjoutMenu = int.TryParse(Console.ReadLine(), out choixAjoutMenu);
-            if (!successChoixAjoutMenu)
+            AnsiConsole.Write(new FigletText("Creation de Hero").LeftJustified().Color(Color.Red));
+
+            var choixAjoutPrompt = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("=== Sélectionnez une [green]option[/] pour créer un personnage : ===")
+                    .AddChoices("Guerrier", "Nain", "Elfe", "Retour")
+            );
+
+            int choixAjoutMenu = choixAjoutPrompt switch
             {
-                Utils.InterditSaisie();
-            }
+                "Guerrier" => 1,
+                "Nain" => 2,
+                "Elfe" => 3,
+                "Retour" => 0,
+                _ => -1,
+            };
 
             switch (choixAjoutMenu)
             {
                 case 0:
                     Console.Clear();
-                    break;
+                    return;
                 case 1:
-                    Console.Write("Nom du hero : ");
-                    string nomAjouthero = Console.ReadLine().Trim();
-                    if (string.IsNullOrEmpty(nomAjouthero))
-                    {
-                        Utils.InterditSaisie();
-                        break;
-                    }
-                    Console.Write("PV du hero : ");
-                    int pvAjouthero;
-                    bool successPvAjouthero = int.TryParse(Console.ReadLine(), out pvAjouthero);
-                    if (!successPvAjouthero || pvAjouthero <= 0)
-                    {
-                        Utils.InterditSaisie();
-                        break;
-                    }
-                    Console.Write("Nombre d'ATQ du hero : ");
-                    int nbATQAjouthero;
-                    bool successnbATQAjouthero = int.TryParse(
-                        Console.ReadLine(),
-                        out nbATQAjouthero
-                    );
-                    if (!successnbATQAjouthero || nbATQAjouthero <= 0)
-                    {
-                        Utils.InterditSaisie();
-                        break;
-                    }
-                    Hero heroAjout = new Hero(nomAjouthero, pvAjouthero, nbATQAjouthero, false);
-                    listHeros.Add(heroAjout);
-                    Console.Clear();
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("hero ajouté avec succès !");
-                    sauvegarde.SauvegarderHeros(listHeros);
-                    Console.ResetColor();
+                    AjouterPersonnage("Guerrier");
                     break;
                 case 2:
-                    Console.Write("Nom du Nain : ");
-                    string nomAjoutNain = Console.ReadLine();
-                    Console.Write("PV du Nain : ");
-                    int pvAjoutNain;
-                    bool successpvAjoutNain = int.TryParse(Console.ReadLine(), out pvAjoutNain);
-                    if (!successpvAjoutNain || pvAjoutNain <= 0)
-                    {
-                        Utils.InterditSaisie();
-                        break;
-                    }
-                    Console.Write("Nombre d'ATQ du Nain : ");
-                    int nbATQAjoutNain;
-                    bool successnbATQAjoutNain = int.TryParse(
-                        Console.ReadLine(),
-                        out nbATQAjoutNain
-                    );
-                    if (!successnbATQAjoutNain || nbATQAjoutNain <= 0)
-                    {
-                        Utils.InterditSaisie();
-                        break;
-                    }
-                    Console.Write("Le Nain porte-t-il une armure lourde ? (true/false) :");
-                    string armureLourdeNain = Console.ReadLine().Trim();
-                    if (string.IsNullOrEmpty(armureLourdeNain))
-                    {
-                        Utils.InterditSaisie();
-                        break;
-                    }
-                    if (armureLourdeNain == "true" || armureLourdeNain == "false")
-                    {
-                        bool porteArmureLourde = bool.Parse(armureLourdeNain);
-                        Nain nainAjout = new Nain(
-                            nomAjoutNain,
-                            pvAjoutNain,
-                            nbATQAjoutNain,
-                            porteArmureLourde
-                        );
-                        listHeros.Add(nainAjout);
-                        Console.Clear();
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine($"Nain {nomAjoutNain} ajouté avec succès !");
-                        sauvegarde.SauvegarderHeros(listHeros);
-                        Console.ResetColor();
-                    }
-                    else
-                    {
-                        Utils.InterditSaisie();
-                        break;
-                    }
+                    AjouterPersonnage("Nain");
                     break;
                 case 3:
-                    Console.Write("Nom de l'Elfe : ");
-                    string nomAjoutElfe = Console.ReadLine().Trim();
-                    if (string.IsNullOrEmpty(nomAjoutElfe))
-                    {
-                        Utils.InterditSaisie();
-                        break;
-                    }
-                    Console.Write("PV de l'Elfe : ");
-                    int pvAjoutElfe;
-                    bool successPvAjoutElfe = int.TryParse(Console.ReadLine(), out pvAjoutElfe);
-                    if (!successPvAjoutElfe || pvAjoutElfe <= 0)
-                    {
-                        Utils.InterditSaisie();
-                        break;
-                    }
-                    Console.Write("Nombre d'ATQ de l'Elfe : ");
-                    int nbATQAjoutElfe;
-                    bool succesNbATQAjoutElfe = int.TryParse(
-                        Console.ReadLine(),
-                        out nbATQAjoutElfe
-                    );
-                    if (!succesNbATQAjoutElfe || nbATQAjoutElfe <= 0)
-                    {
-                        Utils.InterditSaisie();
-                        break;
-                    }
-                    Elfe elfeAjout = new Elfe(nomAjoutElfe, pvAjoutElfe, nbATQAjoutElfe, false);
-                    listHeros.Add(elfeAjout);
-                    Console.Clear();
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"Elfe {nomAjoutElfe} ajouté avec succès !");
-                    sauvegarde.SauvegarderHeros(listHeros);
-                    Console.ResetColor();
+                    AjouterPersonnage("Elfe");
                     break;
                 default:
                     Utils.InterditSaisie();
                     break;
             }
+        }
+
+        public void AjouterPersonnage(string classePersonnage)
+        {
+            Console.Clear();
+            AnsiConsole.Write(
+                new FigletText($"Creation de {classePersonnage}").LeftJustified().Color(Color.Red)
+            );
+
+            string nom = AnsiConsole.Ask<string>(
+                $"Quel est le [green]nom[/] de votre {classePersonnage} ?"
+            );
+            if (string.IsNullOrWhiteSpace(nom))
+            {
+                Utils.InterditSaisie();
+                return;
+            }
+
+            int pv = AnsiConsole.Prompt(
+                new TextPrompt<int>(
+                    $"Combien de [red]points de vie[/] pour le {classePersonnage} ?"
+                )
+                    .DefaultValue(30)
+                    .Validate(value =>
+                        value > 0
+                            ? ValidationResult.Success()
+                            : ValidationResult.Error(
+                                "[red]Les points de vie doivent être supérieurs à 0.[/]"
+                            )
+                    )
+            );
+
+            int nbATQ = AnsiConsole.Prompt(
+                new TextPrompt<int>($"Nombre d'[green]attaques[/] pour le {classePersonnage} ?")
+                    .DefaultValue(5)
+                    .Validate(value =>
+                        value > 0
+                            ? ValidationResult.Success()
+                            : ValidationResult.Error(
+                                "[red]Le nombre d'attaques doit être supérieur à 0.[/]"
+                            )
+                    )
+            );
+
+            bool porteArmure = false;
+            if (classePersonnage == "Nain")
+            {
+                porteArmure = AnsiConsole.Confirm(
+                    "Le Nain porte-t-il une [yellow]armure lourde[/] ?"
+                );
+            }
+
+            Hero nouveauHero = null;
+            switch (classePersonnage)
+            {
+                case "Guerrier":
+                    nouveauHero = new Hero(nom, pv, nbATQ, false);
+                    break;
+                case "Nain":
+                    nouveauHero = new Nain(nom, pv, nbATQ, porteArmure);
+                    break;
+                case "Elfe":
+                    nouveauHero = new Elfe(nom, pv, nbATQ, false);
+                    break;
+            }
+
+            listHeros.Add(nouveauHero); // Ajoute directement au même objet listHeros
+
+            // Sauvegarde après ajout
+            sauvegarde.SauvegarderHeros(listHeros);
+
+            Console.Clear();
+            Utils.AfficherListeHeros(listHeros, sauvegarde);
+            AnsiConsole.MarkupLine($"[green]{classePersonnage} {nom} ajouté avec succès ![/]");
         }
 
         private void LancerTournoi()
