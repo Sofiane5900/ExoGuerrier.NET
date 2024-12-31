@@ -37,16 +37,26 @@ namespace ExoGuerrier.NET.Donjon
 
         public void StartModeHistoire()
         {
+            isGameOver = false;
             Console.Clear();
             introduction.CreationHero();
             this.hero = introduction.Hero; // Le hero de ma classe est maintenant celui de la classe Introduction
             introduction.LancerPrologue();
-            // Si le bool isGameOver est faux, alors on lance la suite du prologue
+            // Je verifie pour chaque chapitre si le bool isGameOver est false
             if (!MenuHistoire.isGameOver)
             {
                 foret.LancerForet(this.hero);
+            }
+            if (!MenuHistoire.isGameOver)
+            {
                 crypte.LancerCrypte(this.hero);
+            }
+            if (!MenuHistoire.isGameOver)
+            {
                 boss.LancerBoss(this.hero);
+            }
+            if (!MenuHistoire.isGameOver)
+            {
                 final.LancerFinal(this.hero);
             }
         }

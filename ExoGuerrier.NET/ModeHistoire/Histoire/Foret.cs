@@ -19,8 +19,7 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
 
         public void LancerForet(Hero hero)
         {
-            //TODO: Crée une methode dans une classe "UtilsHistoire" pour check si le hero est null
-
+            //TODO: Crée une methode pour verifier si le hero est null pour économiser des lignes de code
             if (hero == null)
             {
                 Console.Clear();
@@ -72,9 +71,17 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
                     break;
             }
 
-            Console.Clear();
-            AnsiConsole.MarkupLine("[italic]Vous continuez votre chemin à travers la forêt...[/]");
-            Thread.Sleep(2000);
+            // ** Il ce passe surement un combat vers ici dans le codeen fonction de l'evenement aleatoire ** //
+
+            // Donc avant d'afficher le message suivant, on vérifie si le jeu est GameOver
+            if (!MenuHistoire.isGameOver)
+            {
+                Console.Clear();
+                AnsiConsole.MarkupLine(
+                    "[italic darkcyan]Vous continuez votre chemin à travers la forêt...[/]"
+                );
+                Thread.Sleep(2000);
+            }
         }
     }
 }
