@@ -7,11 +7,13 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
     {
         private Ennemi squelette;
         private Ennemi zombie;
+        private CombatHistoire combat;
 
         public Crypte()
         {
             squelette = new Ennemi("Squelette", 15, 2);
             zombie = new Ennemi("Zombie", 20, 3);
+            combat = new CombatHistoire();
         }
 
         public void LancerCrypte(Hero hero)
@@ -59,7 +61,7 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
             switch (choixCrypte)
             {
                 case "Aller tout droit":
-                    squelette.EvenementAleatoire(10, hero, squelette);
+                    combat.EvenementAleatoire(10, hero, squelette);
                     break;
                 case "Passage à gauche":
                     hero.RecevoirPotions();
@@ -68,7 +70,7 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
                     );
                     break;
                 case "Passage à droite":
-                    zombie.EvenementAleatoire(10, hero, zombie);
+                    combat.EvenementAleatoire(10, hero, zombie);
                     break;
                 default:
                     AnsiConsole.MarkupLine("[red]Option invalide. Essayez de nouveau.[/]");

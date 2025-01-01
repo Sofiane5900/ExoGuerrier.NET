@@ -11,10 +11,12 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
     internal class Foret
     {
         private Ennemi ennemi;
+        private CombatHistoire combat;
 
         public Foret()
         {
             ennemi = new Ennemi("Loup", 10, 2);
+            combat = new CombatHistoire();
         }
 
         public void LancerForet(Hero hero)
@@ -59,19 +61,19 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
             switch (choixForet)
             {
                 case "Chemin sûr mais plus long":
-                    ennemi.EvenementAleatoire(5, hero, ennemi);
+                    combat.EvenementAleatoire(5, hero, ennemi);
                     break;
                 case "Chemin rapide mais risqué":
-                    ennemi.EvenementAleatoire(10, hero, ennemi);
+                    combat.EvenementAleatoire(10, hero, ennemi);
                     break;
                 case "Explorer la forêt à l'aveugle":
-                    ennemi.EvenementAleatoire(20, hero, ennemi);
+                    combat.EvenementAleatoire(20, hero, ennemi);
                     break;
                 default:
                     break;
             }
 
-            // ** Il ce passe surement un combat vers ici dans le codeen fonction de l'evenement aleatoire ** //
+            // ** Il ce passe surement un combat vers ici dans le code en fonction de l'evenement aleatoire ** //
 
             // Donc avant d'afficher le message suivant, on vérifie si le jeu est GameOver
             if (!MenuHistoire.isGameOver)

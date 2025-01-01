@@ -11,10 +11,12 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
     internal class Boss
     {
         private Ennemi ennemi;
+        private CombatHistoire combat;
 
         public Boss()
         {
             ennemi = new Ennemi("Seigneur Liche", 40, 3);
+            combat = new CombatHistoire();
         }
 
         public void LancerBoss(Hero hero)
@@ -65,7 +67,7 @@ namespace ExoGuerrier.NET.ModeHistoire.Histoire
             switch (choixBoss)
             {
                 case "Attaquer":
-                    ennemi.Combat(hero, ennemi);
+                    combat.Combat(hero, ennemi);
                     break;
                 case "Fuir":
                     Console.Clear();
